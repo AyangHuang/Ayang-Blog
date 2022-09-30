@@ -1,0 +1,5 @@
+# 朋友/站点信息例子
+- nickname: 百度
+  avatar: 
+  url: http://baidu.com  # 必须是url，即包含http
+  description: 不会就问度娘   

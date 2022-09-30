@@ -1,0 +1,106 @@
+baseURL = '/'
+defaultContentLanguage = "zh-cn"
+# 网站语言，仅在这里 CN 大写
+languageCode = "zh-CN"
+# 是否包括中日韩文字
+hasCJKLanguage = true
+# 网站标题 显示在网页上面
+title = "Ayang's Blog"
+
+# 更改使用 Hugo 构建网站时使用的默认主题
+theme = "FixIt"
+
+
+
+# Hugo 网站设置
+
+[author]
+  name = "Ayang"
+  email = ""
+  link = "https://github.com/AyangHuang"
+
+
+
+[markup]
+  # 语法高亮设置 (https://gohugo.io/content-management/syntax-highlighting)
+  [markup.highlight]
+    ################## 必要的配置 ##################
+    # https://github.com/hugo-fixit/FixIt/issues/43
+    codeFences = true
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false 
+    ################## 必要的配置 ##################
+    guessSyntax = true
+  # Goldmark 是 Hugo 0.60 以来的默认 Markdown 解析库
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.renderer]
+      # 是否在文档中直接使用 HTML 标签
+      unsafe = true
+  # 目录设置
+  # 推荐：文章的标题为一级目录，目录从二级目录开始
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 6
+
+
+# 网站地图配置
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+# Permalinks 配置 (https://gohugo.io/content-management/urls#permalinks)
+[Permalinks]
+  # posts = ":year/:month/:filename"
+  posts = ":filename"
+
+# 隐私信息配置 (https://gohugo.io/about/hugo-and-gdpr/)
+[privacy]
+  [privacy.twitter]
+    enableDNT = true
+  [privacy.youtube]
+    privacyEnhanced = true
+
+# FixIt 0.2.15 | 更改
+[mediaTypes]
+  # 用于输出 Markdown 格式文档的设置
+  [mediaTypes."text/markdown"]
+    suffixes = ["md"]
+  # 用于输出 txt 格式文档的设置
+  [mediaTypes."text/plain"]
+    suffixes = ["txt"]
+
+# FixIt 0.2.15 | 更改
+[outputFormats]
+  # 用于输出 Markdown 格式文档的设置
+  [outputFormats.MarkDown]
+    mediaType = "text/markdown"
+    isPlainText = true
+    isHTML = false
+  # FixIt 0.2.15 | 新增 用于输出 baidu_urls.txt 文件的设置
+  [outputFormats.BaiduUrls]
+    baseName = "baidu_urls"
+    mediaType = "text/plain"
+    isPlainText = true
+    isHTML = false
+
+# FixIt 0.2.15 | 更改 用于 Hugo 输出文档的设置
+# 为了生成搜索功能所需要的 index.json, 请在你的 网站配置 中添加 JSON 输出文件类型到 outputs 部分的 home 字段中。
+[outputs]
+  home = ["HTML", "RSS", "JSON", "BaiduUrls"]
+  page = ["HTML", "MarkDown"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  taxonomyTerm = ["HTML"]
+
+
+
