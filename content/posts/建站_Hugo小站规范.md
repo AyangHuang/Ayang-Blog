@@ -21,7 +21,7 @@ linkToMarkdown: true
 # 上面一般不用动
 title: "Hugo小站规范"
 date: 2022-09-29T01:12:45+08:00
-lastmod: 2022-09-29T15:58:26+08:00
+lastmod: 2022-10-01T15:58:26+08:00
 categories: ["建站"]
 tags: ["Hugo", "Markdown"]
 ---
@@ -34,9 +34,17 @@ tags: ["Hugo", "Markdown"]
 
 1. page命名规范  
 
-    每一个page文件命名为“category_category_pageTitle_lastMod.md”。  
+    ~~每一个page文件命名为“category_category_pageTitle_lastMod.md”。  
     且category排序按“字母顺序>中文拼音顺序”。  
-    eg: 该page命名为“建站_Hugo小站规范_20220929”。 
+    eg: 该page命名为“建站_Hugo小站规范_20220929”。~~   
+
+    20221001更改为：  
+    每一个page文件命名为“category_category_pageTitle”。  
+    且category排序按“字母顺序>中文拼音顺序”。  
+    eg: 该page命名为“建站_Hugo小站规范”。  
+
+    更改原因：  
+    修改文件名称即导致URI改变，个人觉得不太好，遂改变。  
 
 2. image存储规范  
 
