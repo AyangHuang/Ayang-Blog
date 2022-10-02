@@ -31,11 +31,13 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		if hmac.Equal([]byte(signatureStr), []byte(head)) {
 			// 执行shell脚本
 			exec.Command("autodeploy.sh")
+			w.WriteHeader(200)
 		}
+		w.WriteHeader(400)
 
 	}
 }
 func main() {
 	http.HandleFunc("/autodeploy", autoDeploy)
-	http.ListenAndServe("http://127.0.0.1:1314", nil)
+	http.ListenAndServe(":1314", nil)
 }
