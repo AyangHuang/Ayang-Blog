@@ -8,9 +8,13 @@ import (
 func autoDeploy(w http.ResponseWriter, req *http.Request) {
 	// 无加密，别搞我！求！求！
 	// 不过这是内部接口，外部接口在nginx，我不告诉你！！！
-	exec.Command("autodeploy.sh")
-	w.WriteHeader(200)
-
+	command := "./autodeploy.sh"
+	cmd := exec.Command("/bin/bash", command)
+	if err := cmd.Run(); err == nil {
+		w.WriteHeader(200)
+	} else {
+		w.WriteHeader(500)
+	}
 	//加密错误。。。不知道原因
 	//if req.Method == http.MethodPost {
 	//	// 获取请求报文的内容长度
