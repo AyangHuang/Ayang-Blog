@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"net/http"
 	"os/exec"
+	"fmt"
 )
 
 func autoDeploy(w http.ResponseWriter, req *http.Request) {
@@ -28,7 +29,9 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		//signatureStr := hex.EncodeToString(signature)
 		var pre []byte = []byte("sha256=")
 		end := append(pre, signature...)
-		println(end)
+		for v := range end {
+			fmt.Print(v)
+		}
 		if hmac.Equal(end, []byte(head)) {
 			// 执行shell脚本
 			exec.Command("autodeploy.sh")
