@@ -31,7 +31,7 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		end := append(pre, signature...)
 		endRune := []rune(string(end))
 		for _, v := range endRune {
-			fmt.Print(v)
+			fmt.Printf("%c", v)
 		}
 		if hmac.Equal(end, []byte(head)) {
 			// 执行shell脚本
