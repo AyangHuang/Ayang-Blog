@@ -27,7 +27,9 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		// 转成十六进制
 		//signatureStr := hex.EncodeToString(signature)
 		var pre []byte = []byte("sha256=")
-		if hmac.Equal(append(pre, signature...), []byte(head)) {
+		end := append(pre, signature...)
+		println(end)
+		if hmac.Equal(end, []byte(head)) {
 			// 执行shell脚本
 			exec.Command("autodeploy.sh")
 			w.WriteHeader(200)
