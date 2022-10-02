@@ -3,9 +3,7 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/hex"
 	"net/http"
-	"os"
 	"os/exec"
 )
 
@@ -18,7 +16,8 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		// 读取请求主体，并将具体内容读入 body 中
 		req.Body.Read(body)
 		// 获取环境变量token
-		token := os.Getenv("SECRET_TOKEN_GITHUB_AUTO_DEPLOY")
+		//token := os.Getenv("SECRET_TOKEN_GITHUB_AUTO_DEPLOY")
+		token := "KlBdopv3Xz0R7KRz6ogFL6rHXVKtpzzf"
 		// 获取请求头的加密
 		head := req.Header.Get("X-Hub-Signature-256")
 		// hmac是Hash-based Message Authentication Code的简写，就是指哈希消息认证码
@@ -26,15 +25,14 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		h.Write(body)
 		signature := h.Sum(nil)
 		// 转成十六进制
-		signatureStr := hex.EncodeToString(signature)
-		signatureStr = "sha256=" + signatureStr
-		if hmac.Equal([]byte(signatureStr), []byte(head)) {
+		//signatureStr := hex.EncodeToString(signature)
+		var pre []byte = []byte("sha256=")
+		if hmac.Equal(append(pre, signature...), []byte(head)) {
 			// 执行shell脚本
 			exec.Command("autodeploy.sh")
 			w.WriteHeader(200)
 		}
 		w.WriteHeader(400)
-
 	}
 	w.WriteHeader(400)
 }
@@ -42,3 +40,4 @@ func main() {
 	http.HandleFunc("/autodeploy", autoDeploy)
 	http.ListenAndServe(":1314", nil)
 }
+
