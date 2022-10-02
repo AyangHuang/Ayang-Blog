@@ -83,7 +83,7 @@ pageTitle是一级目录，且**一级目录后是该page的简介**。
 
 ### Markdown规范
 
-相同的Markdown文件在不同软件渲染出来的可能会有所差异，为了兼容大部分软件且使得Hugo解析成HTML利于观看，遂制定如下规范。推荐：[Markdown](https://markdown.com.cn/basic-syntax/)  
+相同的Markdown文件在不同软件渲染出来的可能会有所差异，为了兼容大部分软件且使得Hugo解析成HTML利于观看，遂制定如下规范。推荐网站：[Markdown](https://markdown.com.cn/basic-syntax/)  
 
 
 1. 换行规范  
