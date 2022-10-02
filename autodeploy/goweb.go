@@ -6,7 +6,8 @@ import (
 )
 
 func autoDeploy(w http.ResponseWriter, req *http.Request) {
-	// 无加密
+	// 无加密，别搞我！求！求！
+	// 不过这是内部接口，外部接口在nginx，我不告诉你！！！
 	exec.Command("autodeploy.sh")
 	w.WriteHeader(200)
 
