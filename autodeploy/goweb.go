@@ -25,12 +25,14 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		h := hmac.New(sha256.New, []byte(token))
 		h.Write(body)
 		signature := h.Sum(nil)
+		for _, v:= range signature {
+			fmt.Printf("%c", v)
+		}
 		// 转成十六进制
 		//signatureStr := hex.EncodeToString(signature)
 		var pre []byte = []byte("sha256=")
 		end := append(pre, signature...)
-		endRune := []rune(string(end))
-		for _, v := range endRune {
+		for _, v := range end {
 			fmt.Printf("%c", v)
 		}
 		if hmac.Equal(end, []byte(head)) {
