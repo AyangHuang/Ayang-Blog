@@ -36,6 +36,7 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(400)
 
 	}
+	w.WriteHeader(400)
 }
 func main() {
 	http.HandleFunc("/autodeploy", autoDeploy)
