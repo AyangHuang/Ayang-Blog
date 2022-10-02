@@ -29,7 +29,8 @@ func autoDeploy(w http.ResponseWriter, req *http.Request) {
 		//signatureStr := hex.EncodeToString(signature)
 		var pre []byte = []byte("sha256=")
 		end := append(pre, signature...)
-		for _, v := range end {
+		endRune := []rune(string(end))
+		for _, v := range endRune {
 			fmt.Print(v)
 		}
 		if hmac.Equal(end, []byte(head)) {
