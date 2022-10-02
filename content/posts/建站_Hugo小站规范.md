@@ -127,6 +127,6 @@ hugo server --disableFastRender
 
 ## Markdown源码  
 
-该page的md源码可点击左下角的**阅读原始文档**下载，然后在vscode打开即可清晰观看到**该page Markdown的规范**。
+该page的md源码可点击左下角的**阅读原始文档**下载，然后在vscode打开即可清晰看到**该page Markdown的语法规范**。
 
 ## End
