@@ -1,5 +1,5 @@
 ---
-title: "Index"
+title: "Friends"
 subtitle: ""
 type: "friends"
 date: 2022-09-29T03:04:12+08:00
