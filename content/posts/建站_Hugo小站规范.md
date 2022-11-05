@@ -19,7 +19,7 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: true
 # 上面一般不用动
-title: "Hugo小站规范"
+title: "Hugo 小站规范"
 date: 2022-09-29T01:12:45+08:00
 lastmod: 2022-10-01T15:58:26+08:00
 categories: ["建站"]
