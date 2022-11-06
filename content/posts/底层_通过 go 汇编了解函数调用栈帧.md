@@ -21,7 +21,7 @@
 # 上面一般不用动
 title: "通过 go 汇编了解函数调用栈帧"
 date: 2022-11-06T01:17:04+08:00
-lastmod: 2022-11-06T01:17:04+08:00
+lastmod: 2022-11-06T23:59:04+08:00
 categories: ["底层"]
 tags: ["go 汇编"]
 ---
@@ -71,7 +71,8 @@ go tool compile -S -N -l demo2.go
 
 ```shell
 "".main STEXT size=95 args=0x0 locals=0x30 funcid=0x0 align=0x0
-        0x0000 00000 (demo2.go:9)       TEXT    "".main(SB), ABIInternal, $48-0
+        0x0000 00000 (demo2.go:9)       TEXT    "".main(SB), ABIInternal, $48-0 # 48 表示函数栈帧大小占 48Byte，在编译时确认
+        # (接上面）go 比较特殊，不是在函数执行过程中逐步扩展栈帧大小，而是直接确认栈帧大小，然后一口气分配（把 SP 指针移到需要的位置）
         0x0000 00000 (demo2.go:9)       CMPQ    SP, 16(R14)
         0x0004 00004 (demo2.go:9)       PCDATA  $0, $-2
         0x0004 00004 (demo2.go:9)       JLS     88
@@ -105,7 +106,7 @@ go tool compile -S -N -l demo2.go
 
 ```shell
 "".swap STEXT nosplit size=90 args=0x10 locals=0x20 funcid=0x0 align=0x0
-        0x0000 00000 (demo2.go:3)       TEXT    "".swap(SB), NOSPLIT|ABIInternal, $32-16
+        0x0000 00000 (demo2.go:3)       TEXT    "".swap(SB), NOSPLIT|ABIInternal, $32-16 # swap 函数栈帧大小为 32Byte
         0x0000 00000 (demo2.go:3)       SUBQ    $32, SP #（9）SP-32，即把 SP 向低地址移动32字节作为 swap 栈的栈顶
         0x0004 00004 (demo2.go:3)       MOVQ    BP, 24(SP) #（10）把 BP 的值保存到 SP+24，即 swap 栈帧的栈底
         0x0009 00009 (demo2.go:3)       LEAQ    24(SP), BP #（11）把 SP+24 的地址保存到 BP 作为 swap 栈的栈基
