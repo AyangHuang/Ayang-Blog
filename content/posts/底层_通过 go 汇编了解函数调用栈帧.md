@@ -106,7 +106,7 @@ go tool compile -S -N -l demo2.go
 
 ```shell
 "".swap STEXT nosplit size=90 args=0x10 locals=0x20 funcid=0x0 align=0x0
-        0x0000 00000 (demo2.go:3)       TEXT    "".swap(SB), NOSPLIT|ABIInternal, $32-16 # swap 函数栈帧大小为 32Byte
+        0x0000 00000 (demo2.go:3)       TEXT    "".swap(SB), NOSPLIT|ABIInternal, $32-16 # swap 函数栈帧大小为 32 Byte
         0x0000 00000 (demo2.go:3)       SUBQ    $32, SP #（9）SP-32，即把 SP 向低地址移动32字节作为 swap 栈的栈顶
         0x0004 00004 (demo2.go:3)       MOVQ    BP, 24(SP) #（10）把 BP 的值保存到 SP+24，即 swap 栈帧的栈底
         0x0009 00009 (demo2.go:3)       LEAQ    24(SP), BP #（11）把 SP+24 的地址保存到 BP 作为 swap 栈的栈基
