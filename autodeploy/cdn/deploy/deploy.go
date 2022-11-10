@@ -110,10 +110,11 @@ func judgeMD(str string) string {
 	}
 }
 
-// 截取有效目录，去掉“.MD”后缀，把“ ”替换成“-”，返回 /目录
+// 截取有效目录，去掉“.MD”后缀，把“ ”替换成“-”，并把目录中大写改成小写，返回 /目录
 func cut(str string) string {
 	start := strings.LastIndex(str, "/")
 	str = str[start : len(str)-3]
 	str = strings.ReplaceAll(str, " ", "-")
+	str = strings.ToLower(str)
 	return str
 }
