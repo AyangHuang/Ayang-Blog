@@ -19,23 +19,19 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 # linkToMarkdown: true
 # 上面一般不用动
-title: "gameshop - 第一个 WEB 项目"
+title: "gameshop - 第一个 web 项目"
 date: 2022-10-31T01:30:49+08:00
 lastmod: 2022-10-31T01:30:49+08:00
 categories: ["项目"]
 tags: ["JavaWeb"]
 ---
 
-gameshop 项目是大一暑期实训个人独立完成（除 html、css 外）的小项目，也是我的的第一个 WEB 项目。15 天的时间学习到了很多很多，可以说是除了参与学校网络创新实验室一二轮考核外短时间内收获知识最丰富的一段时间（汗，因为都有 ddl 的 push），收获了 WEB 的整体工作流程，了解并实践 JavaWeb 的开发。包括了 jquery，ajax，session，cookie，JavaEE 中的 Servlet，Filter 等和数据库连接池，ThreadLocal 等等。这篇文章主要是回顾整理下项目的简单实现（不涉及代码细节）。  
+gameshop 项目是大一暑期实训个人独立完成（除 html、css ）的小项目，也是我的的第一个 WEB 项目。15 天的时间学习到了很多很多，可以说是除了参与学校网络创新实验室一二轮考核外短时间内收获知识最丰富的一段时间（汗，因为都有 ddl 的 push）。这篇文章主要是回顾整理下项目的简单实现（不涉及代码细节）。  
 
 项目用到的技术栈：JavaWeb、jQuery、ajax、MySQL。
 
 实训结束后简单学习了 Linux，已经部署到云服务器上，请访问 <a href="https://ayang.ink/gameshop" target="_blank">ayang.ink/gameshop</a>  
 Github 源码地址：<a href="https://github.com/AyangHuang/gameshop-javaweb" target="_blank">GitHub</a>  
-
-## 前期准备
-
-因为问过去年的学长得知暑期实训是做 WEB 项目，所以在期末前 3 周我是看了两本书《网络是怎么连接起来的》、《图解HTTP》（推荐这俩本书，计网的简单入门），粗略地、全局地了解整个网络中数据的传输过程。我个人觉得**理论知识是特别重要的**，是实践的前提。但是实际实践过程中，还是会碰壁然后重新看书，在实践过程中也更加了解了 session、cookie（尽管对现在的我来说，so easy）。
 
 ## 项目整体概括
 
@@ -83,7 +79,7 @@ Github 源码地址：<a href="https://github.com/AyangHuang/gameshop-javaweb" t
 ### cookie 和 session
 
 > **cookie**：数据存储在浏览器中，由服务器在发送 HTTP Respond 报文时通过 `Set-Cookie` 响应头发送给浏览器。  
-> **session**：数据存储在服务器中（准确来说应该是由 WEB 程序在内存中维护，其实就是一个数据结构，比如是 map 之类）。在第一次访问服务器时，WEB 程序会生成一个 session 数据结构，并把标识该 session 的 sessionid 通过 session 发送回浏览器。下次访问时，cookie 带上 sessionid。WEB 程序通过 sessionid 找到对应的 session 数据结构，可以进程存储或删除数据。注意：session 是会话级别，浏览器关闭时会清楚 sessionid，session 在 WEB 程序同时也有超时机制，超过一定时间没访问，会删除该 session。  
+> **session**：数据存储在服务器中（准确来说应该是由 WEB 程序在内存中维护，其实就是一个数据结构，比如是 map 之类）。在第一次访问服务器时，WEB 程序会生成一个 session 数据结构，并把标识该 session 的 sessionid 通过 session 发送回浏览器。下次访问时，cookie 带上 sessionid。WEB 程序通过 sessionid 找到对应的 session 数据结构，可以进程存储或删除数据。注意：session 是会话级别，浏览器关闭时会清除 sessionid，session 在 WEB 程序同时也有超时机制，超过一定时间没访问，会删除该 session。  
 
 {{< image src="/images/gameshop-第一个WEB项目/request.png" width=100% height=100% caption="请求头" >}}
 
@@ -111,31 +107,12 @@ session 是通过 sessionid 来标识的，并没有关联用户。所以我另�
 
 2. session 超时**自动销毁**或**强制销毁**（重复登录），**HttpSessionListener**监听session销毁并从用户登陆表移除该键值对（不监听销毁，会导致 session 被销毁，但是用户登录表却还指向这里，会造成野指针）。
 
-## 下面摆烂了======================
-
 ## 5. ThreadLocal + Filter 进行事务管理
-
-（后序会写 ThreadLocal 的源码刨析，实训时看过一点，好像不难？）
-
-1. **ThreadLocal**是解决线程安全问题一个很好的思路，它通过为每个线程提供一个独立的变量副本解决了变量并发访问的冲突问题。
-
-   该类提供了线程局部 (thread-local) 变量。这些变量不同于它们的普通对应物，因为访问某个变量(通过其 get 或 set 方法)的每个线程都有自己的局部变量，它独立于变量的初始化副本。
-
-2. **Tomacat**（多线程） 对于每一个请求都会开启一个**新的线程**来处理（运用线程池），故可用 ThreadLocal 存储 Connection 来进行事务管理，使一个请求里的**Connection是同一个**。
-
-3. filter 类似 go 中间件功能，在发生 error 时，可利用 filter 回滚事务
 
 ## 6. Filter 进行请求过滤
 
-1. 前端会验证是否存在sessionid ，存在则发送请求，不存在则跳到登录页面
-
-2. 规定请求包含用户信息的请求都携带**/user/**，后端 Filter 对 /user/ 进行session验证，判断是否处于登录状态，是则放行。
-
-3. 后端的过滤，能有效避免跳过前端验证直接手动发送请求恶意获取信息的方式。
-
 ## 7.分页功能实现
 
-可根据需要修改两个参数即可灵活改变分页参数。
-
 ## 8.session 实现购物车
+
 ## End
