@@ -37,7 +37,7 @@ tags: ["DIO"]
 
 磁盘**一次物理读写**的基本单位是**扇区**（一般 512Byte)。扇区的空间比较小且数目众多，在寻址时比较困难，操作系统的虚拟文件文件系统就将**多个扇区**组合在一起，形成一个更大的单位，就是**块**（block）。虚拟文件系统通过**块**（一般为 4KB）作为读取等操作数据的**基本单位**（即文件系统读写的最小粒度为**块**）。   
 
-{{< image src="/images/Directed IO/block.png" width=40% height=40% caption="block" >}}
+{{< image src="/images/Directed-IO/block.png" width=40% height=40% caption="block" >}}
 
 **总结**  
 
@@ -66,7 +66,7 @@ Page Cache（页缓存）是**位于内核地址空间**中，以内存页为单
 
 根据**是否利用操作系统的页缓存**（page cache），可以把文件 I/O 分为直接 I/O 与缓存 I/O。  
 
-{{< image src="/images/Directed IO/DIO.png" width=80% height=80% caption="缓存 IO 和 DIO 对比" >}}
+{{< image src="/images/Directed-IO/DIO.png" width=80% height=80% caption="缓存 IO 和 DIO 对比" >}}
 
 
 * **缓存 I/O**（标准I/O）：读操作时，数据先从磁盘 copy 到**内核页缓存**中，然后再从内核页缓存中拷贝给用户程序，写操作时，数据从用户程序拷贝给内核缓存，再由内核决定什么时候写入数据到磁盘。（缓存I/O又被称作**标准I/O**，大多数文件系统的默认I/O操作都是缓存I/O。） 
