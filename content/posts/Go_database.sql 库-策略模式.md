@@ -20,8 +20,8 @@
 # linkToMarkdown: true
 # 上面一般不用动
 title: "database.sql 库-策略模式"
-date: 2022-12-17T00:17:04+08:00
-lastmod: 2022-12-17T00:17:04+08:00
+date: 2022-12-17T00:16:04+08:00
+lastmod: 2022-12-17T00:16:04+08:00
 categories: ["Go"]
 tags: ["设计模式"]
 ---
