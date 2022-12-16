@@ -45,22 +45,25 @@ sudo apt install vim
 
 ### vscoe
 
-1. 添加微软公钥
+1. 添加微软公钥  
+   
+   `wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -`
 
-wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+2. 安装依赖文件   
+   
+    `sudo apt install software-properties-common apt-transport-https wget`
 
-2. 安装依赖文件
+3. 将vscode的apt源添加到到本地  
+   
+    `sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"`
 
-sudo apt install software-properties-common apt-transport-https wget
+4. 安装vscode  
+     
+    ```bush
+    sudo apt update 
+    sudo apt install code
+    ```
 
-3. 将vscode的apt源添加到到本地
-
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-
-4. 安装vscode
-
-sudo apt update 
-sudo apt install code
 
 ### vscode plugin
 
@@ -218,7 +221,8 @@ sudo apt --fix-broken install
 
 ## redis 
 
-`sudo apt install redis-server`
+`sudo apt install redis-server`  
+
 `sudo apt install redis-tools`
 
 ## End
