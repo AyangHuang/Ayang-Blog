@@ -22,7 +22,7 @@
 title: "通过 go 汇编了解函数调用栈帧"
 date: 2022-11-06T01:17:04+08:00
 lastmod: 2022-11-06T23:59:04+08:00
-categories: ["底层"]
+categories: ["Go"]
 tags: ["go 汇编"]
 ---
 
