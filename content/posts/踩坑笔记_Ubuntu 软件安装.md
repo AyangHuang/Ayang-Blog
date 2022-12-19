@@ -37,6 +37,21 @@ sudo apt remove vim-common
 sudo apt install vim
 ```
 
+## 软件设置菜单显示
+
+```sh
+ayang@Ubuntu22:~$ sudo ln -s /opt/Postman/app/Postman  /usr/bin/postman
+ayang@Ubuntu22:~$ sudo vim /usr/share/applications/postman.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman 
+Exec=/opt/Postman/app/Postman # 命令行启动
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+```
+
 ## netstat 
 
 `sudo apt install net-tools`
