@@ -40,7 +40,6 @@ sudo apt install vim
 ## 软件设置菜单显示
 
 ```sh
-ayang@Ubuntu22:~$ sudo ln -s /opt/Postman/app/Postman  /usr/bin/postman
 ayang@Ubuntu22:~$ sudo vim /usr/share/applications/postman.desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -51,6 +50,20 @@ Terminal=false
 Type=Application
 Categories=Development;
 ```
+
+## deb 包
+
+百度百科：deb 格式是 Debian 系统（包含Debian 和 Ubuntu）专属安装包格式，配合 APT 软件管理系统，成为了当前在 Linux 下非常流行的一种安装包。
+
+`dpkg -i name.deb` 可以将 deb 包安装到系统上
+
+删除如下：
+
+1. 模糊查找找到具体名字  
+    `apt list --installed | grep -i possible_package_name` 
+s
+2. apt 删除
+    `sudo apt remove package_name`
 
 ## netstat 
 
@@ -73,7 +86,7 @@ Categories=Development;
     `sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"`
 
 4. 安装vscode  
-     
+   
     ```bush
     sudo apt update 
     sudo apt install code
@@ -89,8 +102,6 @@ Categories=Development;
 直接到官网下载 .deb 安装包 
 
 `sudo dpkg -i  edge.deb`
-
-百度百科：deb 格式是 Debian 系统（包含Debian 和 Ubuntu）专属安装包格式，配合 APT 软件管理系统，成为了当前在 Linux 下非常流行的一种安装包。
 
 ## typora
 
