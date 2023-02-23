@@ -22,7 +22,7 @@
 title: "Directed IO"
 date: 2022-11-27T00:56:45+08:00
 lastmod: 2022-11-27T00:56:45+08:00
-categories: ["高性能"]
+categories: ["操作系统"]
 tags: ["DIO"]
 ---
 
