@@ -50,33 +50,38 @@ JDK1.8的实现：**Hash 数组**+链表+红黑树。**直接对 hash 表的每�
 1. **适合场景**：  
    **适合读多，写少的场景**。因为写是必须加锁的。
 
+   我思考：如果写多的话，那也许可以采用 java 分段锁的思想。那为什么 sync.Map 不直接采用 分段锁的思想呢？ 我觉得：采用分段锁思想，必须对 map 进行重构，加锁变量等，用 sync.Map 则可以利用 map，省事。。。
+
 2. **实现简介**
+
    1. 由两个 map 实现，read map 和 dirty map。value 是 *entry，entry 是对 pointer 的封装，对 entry.point 都是原子操作和 CAS；  
    2. read 只有**一部分数据**，而 dirty map 一定具有全部的数据；  
-   3. read map **直接读取 entry**，但是 load entry.Pointer 用原子操作 `atomic.LoadPointer(&e.p)`，修改数据（store、delete）使用的是 **CAS 乐观锁**无限尝试直接替换 entry 里的 pointer；  
-   4. dirty map 的所有操作都需要加**互斥锁**，无论读取还是存储。获取 entry 加锁，同时存储 entry.pointre 再用**原子操作**；  
-   5. entry.pointer 有三种状态：normal，nil（中间状态逻辑删除，dirty 还有），expunged（表示 read=>dirty 流程已经扫描过该key，且 dirty 中没有该 key。这是最终状态，如果下次 read=> dirty 还是处于这个状态，则不会存入 dirty。那么在 下一次 dirty => read 将因为 dirty = nil 的原因被释放）；
-   6. **store 流程**：
+   3. **性能高的原因**：read map 中有的加载（load）和修改（store、delete）都是**原子操作**，而新增数据必须在 dirty 中**加锁操作**。
+   4. read map **直接并发读取 entry**，但是 load entry.Pointer 用原子操作 `atomic.LoadPointer(&e.p)`，修改数据（store、delete）使用的是 **CAS 乐观锁**无限尝试直接替换 entry 里的 pointer；  
+   5. dirty map 的所有操作都需要加**互斥锁**，无论读取还是存储。获取 entry 加锁，同时存储 entry.pointre 再用**原子操作**；  
+   6. entry.pointer 有三种状态：normal，nil（中间状态逻辑删除，dirty 还有），expunged（表示 read=>dirty 流程已经扫描过该key，且 dirty 中没有该 key。这是最终状态，如果下次 read=> dirty 还是处于这个状态，则不会存入 dirty。那么在 下一次 dirty => read 将因为 dirty = nil 的原因被释放）；
+   7. **store 流程**：
       1. 看 read map 有没有，有（可以是nil）且不是 expunged 则直接 store（entry.Point）；有但是是 expunged 状态则加锁后存入 dirty 中(复用entry，但是dirty 中新加 key)；
       2. 看 dirty 有没有，有直接 store（entry.Point）；
       3. dirty 也没有，**判断是否需要发生 read => dirty**；
       4. **创建 entry**，加入 dirty；
-   7. **load流程**：  
+   8. **load流程**：  
       1. 在 read map 中找，找到且不处于 expunged 则返回；处于 expunged 说明不存在，直接返回 nil；
       2. 在 dirty 中找，miss++，如果 miss 达到阈值，**dirty => read**；
       3. dirty 中找到且不处于 nil 和 expunged 则返回，否则返回 nil。
-   8. **delete 流程**：
+   9. **delete 流程**：
       1. 在 read 中，设置 entry.point = nil，逻辑删除。
       2. 不在 read 中，直接删除 dirty 的 key（真正删除），且 miss++。
-   9. **range 流程**：
-      1. 如果 read 和 dirty 相同，即判断 read.amended == false，成立则遍历 read map；  
-      2. 如果为 true，则说明 dirty 有独占的 key，发生 dirty => read，再遍历 read map；  
-      也就是说**每次遍历一定是在 read map 中，这样可以不用加锁**。  
-   10. **dirty=>read** 操作：直接 sync.map.m = dirty，dirty = nil；
-   11. **read=>dirty** 操作：把 read 中非 nil 非 expunged 的数据存入 dirty 中，nil 的数据设置为 expunged；
+   10. **range 流程**：
+		1. 如果 read 和 dirty 相同，即判断 read.amended == false，成立则遍历 read map；
+		2. 如果为 true，则说明 dirty 有独占的 key，发生 dirty => read，再遍历 read map；  
+           **也就是说每次遍历一定是在 read map 中，这样可以不用加锁**。  
+   11. **dirty=>read** 操作：直接 sync.map.m = dirty，dirty = nil；
+   12. **read=>dirty** 操作：把 read 中非 nil 非 expunged 的数据存入 dirty 中，nil 的数据设置为 expunged；
 
-3. **既然nil也表示标记删除，那么再设计出一个expunged的意义是什么？**  
-   expunged是有存在意义的，它作为删除的最终状态（待释放），这样nil就可以作为一种中间状态。如果仅仅使用nil，那么，在read=>dirty重塑的时候，可能会出现如下的情况：  
+3. **既然nil也表示标记删除，那么再设计出一个expunged的意义是什么？**    
+
+   expunged是有存在意义的，它作为删除的最终状态（待释放），这样nil就可以作为一种中间状态。如果仅仅使用nil，那么，在read=>dirty重塑的时候，可能会出现如下的情况：    
    1. 如果nil在read浅拷贝至dirty（read=>dirty）的时候仍然保留entry的指针（即拷贝完成后，对应键值下read和dirty中都有对应键下entry e的指针，且e.p=nil）那么之后在dirty=>read升级key的时候对应entry的指针仍然会保留。那么最终**合集会越来越大，存在大量nil的状态**，永远无法得到清理的机会。   
    2. 如果nil在read浅拷贝时不进入dirty(read=>dirty)，那么之后store某个Key键的时候，可能会出现read和dirty不同步的情况，即此时read中包含dirty不包含的键，那么之后用dirty替换read的时候就会出现数据丢失的问题。  
    3. 如果nil在read浅拷贝时直接把read中对应键删除（从而避免了 2 中不同步的问题），但这又必须对read加锁，违背了read读写不加锁的初衷。
