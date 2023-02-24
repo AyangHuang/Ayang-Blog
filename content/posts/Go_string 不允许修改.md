@@ -52,7 +52,7 @@ type stringStruct struct {
    #	print(s)
    #}
    
-   # 只有字符串常量在编译时就分配好内存，且位于 RODATA 只读内存段
+   # 只有字符串字面量在编译时就分配好内存，且位于 RODATA 只读内存段
    go.string."123456" SRODATA dupok size=6
            0x0000 31 32 33 34 35 36                                123456
    go.string."7" SRODATA dupok size=1
@@ -63,7 +63,7 @@ type stringStruct struct {
 
 1. go 实现中，string struct 不包含字符串实际内存空间，只有一个指向内存的指针。这样做的好处是 string 变得非常轻量，可以很方便地进行传递而不用担心内存拷贝。  
   
-2. 保证对底层字符串的并发安全 
+2. 保证对底层字符串的并发安全。
 
 ## 举例不是字面量时如何修改 string 底层内存空间  
 
