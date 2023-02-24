@@ -32,7 +32,7 @@ tags: []
 
 ```go
 // str 变量是一个指向 stringStruct 的指针
-str ：= "string"
+str := "string"
 
 type stringStruct struct {
 	str unsafe.Pointer // 指向底层的内存空间的起始位置
