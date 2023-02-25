@@ -31,7 +31,7 @@ tags: []
 ## string struct
 
 ```go
-// str 变量是一个指向 stringStruct 的指针
+// str 是一个 stringStruct 类型的变量，64 位机器上占 16 Byte
 str := "string"
 
 type stringStruct struct {
