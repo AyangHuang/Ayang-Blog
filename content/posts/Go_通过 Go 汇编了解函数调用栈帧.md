@@ -19,7 +19,7 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 # linkToMarkdown: true
 # 上面一般不用动
-title: "通过 go 汇编了解函数调用栈帧"
+title: "通过 Go 汇编了解函数调用栈帧"
 date: 2022-11-06T01:17:04+08:00
 lastmod: 2022-11-06T23:59:04+08:00
 categories: ["Go"]
