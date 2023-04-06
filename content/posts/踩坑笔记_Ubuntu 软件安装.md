@@ -61,9 +61,16 @@ Categories=Development;
 
 1. 模糊查找找到具体名字  
     `apt list --installed | grep -i possible_package_name` 
-s
+    s
+
 2. apt 删除
     `sudo apt remove package_name`
+
+3. apt 查找已安装包的位置
+
+    `apt list --installed | grep redis/usr/share`
+
+    一般是安装在 usr/share
 
 ## netstat 
 
@@ -91,11 +98,6 @@ s
     sudo apt update 
     sudo apt install code
     ```
-
-
-### vscode plugin
-
-* markdown pre
 
 ## edge
 
