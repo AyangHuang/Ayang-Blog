@@ -113,7 +113,7 @@ func deal() string {
     // 解决办法：关闭 chan。
     //（1）会唤醒所有阻塞等待在该 chan 的 done，并返回零值；
     //（2）如果有从已关闭的 chan 中取值，不会阻塞，也会返回零值
-	// close(done)
+	close(done)
     return result
 }	
 ```
