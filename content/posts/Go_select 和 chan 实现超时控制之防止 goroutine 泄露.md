@@ -40,9 +40,9 @@ import "time"
 func main() {
 	// 这里是同步等待执行完毕，deal 有超时控制
 	result := deal()
-	print("执行完毕，result 为：", result)
-	// 循环，防止 main goroutine 退出
-	for {}
+	print("执行完毕，result 为：", result, "\n")
+	time.Sleep(time.Second*5)
+	print("父协程结束\n")
 }
 
 func deal() string {
@@ -54,13 +54,14 @@ func deal() string {
 	// 开启一个协程异步执行任务
 	go func() {
 		// 模拟处理逻辑花费时间超长（如需要 MySQL 请求等）
-        do.....
+        // do.....
 		time.Sleep(time.Second * 3)
 		ans := "ayang"
 		// 问题所在（bug）：如果超时了，那么下面会走 timeout case
 		// 而如果一段时间后上面的逻辑处理完毕，执行下面代码时发现 done 已经没有协程在等待
         // 将会永久阻塞，造成 goroutine 永远不会回收，也就是协程泄露
 		done <- ans
+		print("子协程正常结束\n")
 	}()
 
     // select 等待子协程处理完毕或超时直接返回
@@ -68,7 +69,7 @@ func deal() string {
 	// 其实逻辑上 deal 函数还是同步的，开启一个协程只不过是为了能够实现超时功能
 	select {
 	case <-timeout:
-		result = "超时"
+		result = "nil"
 	case result = <-done:
 	}
 
@@ -81,15 +82,14 @@ func deal() string {
 解决方法也是比较简单，直接看里面注释把。
 
 ```go
-
 package main
 
 import "time"
 
 func main() {
 	result := deal()
-	print("执行完毕，result 为：", result)
-	for {}
+	print("执行完毕，result 为：", result, "\n")
+	time.Sleep(time.Second*5)
 }
 
 func deal() string {
@@ -101,21 +101,24 @@ func deal() string {
 	go func() {
 		time.Sleep(time.Second * 3)
 		ans := "ayang"
-		done <- ans
+
+		// 解决办法：非阻塞写入。
+		// 因为如果超时了，那么外面已经没有协程阻塞等待接受了，
+		select {
+		case done <- ans:
+		default:
+		}
+		print("子协程正常结束\n")
 	}()
 
 	select {
 	case <-timeout:
-		result = "超时"
+		result = "nil"
 	case result = <-done:
 	}
 
-    // 解决办法：关闭 chan。
-    //（1）会唤醒所有阻塞等待在该 chan 的 done，并返回零值；
-    //（2）如果有从已关闭的 chan 中取值，不会阻塞，也会返回零值
-	close(done)
-    return result
-}	
+	return result
+}
 ```
 
 ## End
