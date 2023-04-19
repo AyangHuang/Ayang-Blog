@@ -41,12 +41,15 @@ func main() {
 	// 这里是同步等待执行完毕，deal 有超时控制
 	result := deal()
 	print("执行完毕，result 为：", result, "\n")
-	time.Sleep(time.Second*5)
+	time.Sleep(time.Second * 5)
 	print("父协程结束\n")
 }
 
 func deal() string {
-	timeout := time.After(time.Second * 2)
+	timeout := time.NewTimer(time.Second * 2)
+	// 结束后立刻关闭计时器，防止高并发情况下很多个计时器运行，造成性能损耗
+	defer timeout.Stop()
+
 	done := make(chan string)
 
 	result := ""
@@ -54,29 +57,29 @@ func deal() string {
 	// 开启一个协程异步执行任务
 	go func() {
 		// 模拟处理逻辑花费时间超长（如需要 MySQL 请求等）
-        // do.....
+		// do.....
 		time.Sleep(time.Second * 3)
 		ans := "ayang"
 		// 问题所在（bug）：如果超时了，那么下面会走 timeout case
 		// 而如果一段时间后上面的逻辑处理完毕，执行下面代码时发现 done 已经没有协程在等待
-        // 将会永久阻塞，造成 goroutine 永远不会回收，也就是协程泄露
+		// 将会永久阻塞，造成 goroutine 永远不会回收，也就是协程泄露
 		done <- ans
 		print("子协程正常结束\n")
 	}()
 
-    // select 等待子协程处理完毕或超时直接返回
+	// select 等待子协程处理完毕或超时直接返回
 	// 问：既然异步了，为什么这里还要阻塞等待执行完毕？不是还是又回到同步么？
 	// 确实是同步的，不过同步的只有最多 timeout 的时间，过了这个时间会立刻返回（那个子协程此时就是异步执行了）
 	// 如果不采取子协程异步发送，那么可能会一直阻塞在该方法很久
 	// 也就是说实现超时 立刻返回 功能必须是 异步 的
 
 	select {
-	case <-timeout:
+	case <-timeout.C:
 		result = "nil"
 	case result = <-done:
 	}
 
-    return result
+	return result
 }
 ```
 
@@ -92,11 +95,14 @@ import "time"
 func main() {
 	result := deal()
 	print("执行完毕，result 为：", result, "\n")
-	time.Sleep(time.Second*5)
+	time.Sleep(time.Second * 5)
+	print("父协程结束\n")
 }
 
 func deal() string {
-	timeout := time.After(time.Second * 2)
+	timeout := time.NewTimer(time.Second * 2)
+	defer timeout.Stop()
+
 	done := make(chan string)
 
 	result := ""
@@ -115,7 +121,7 @@ func deal() string {
 	}()
 
 	select {
-	case <-timeout:
+	case <-timeout.C:
 		result = "nil"
 	case result = <-done:
 	}
