@@ -20,15 +20,13 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "http.Client 和 http.Server 处理请求和响应的流程分析"
-date: 2023-04-11T00:11:45+08:00
-lastmod: 2023-04-11T00:11:45+08:00
+date: :git
+lastmod: :git
 categories: ["Go"]
 tags: []
 ---
 
-参考：
-
-* [https://mp.weixin.qq.com/s/zFG6_o0IKjXh4RxKmPTt4g](网址)
+参考： https://mp.weixin.qq.com/s/zFG6_o0IKjXh4RxKmPTt4g
 
 这篇文章写得非常棒，看完再去看源码就轻松很多了。下面是初略看了源码后的**流程总结**。
 
