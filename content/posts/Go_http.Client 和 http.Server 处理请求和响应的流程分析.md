@@ -20,8 +20,8 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "http.Client 和 http.Server 处理请求和响应的流程分析"
-date: ":git"
-lastmod: ":git"
+date: 2023-04-11T00:11:45+08:00
+lastmod: 2023-04-11T00:11:45+08:00
 categories: ["Go"]
 tags: []
 ---
