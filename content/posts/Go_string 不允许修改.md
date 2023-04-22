@@ -46,7 +46,7 @@ type stringStruct struct {
    不允许 `str[1] = 'o'`，编译器编译不通过。即 **string 类型的变量在编译层面不允许被修改**。  
 
 2. 运行时：  
-   在编译时会将**字符串字面量**分配于 SRODATA。**在运行时，该内存只能读取不能修改**。即**存储字面量 string 的内存不允许修改**（当然如果 string 指向的底层是堆、栈等可读可写内存，是可以通过unsafe指针方式强制修改的）。  
+   编译时会将**字符串字面量**分配于 SRODATA 内存段。**在运行时，该内存段只能读取不能修改**。即**存储字面量 string 的内存不允许修改**（当然如果 string 指向的底层是堆、栈等可读可写内存，是可以通过unsafe指针方式强制修改的）。  
    ```asm
    # func main() {
    #	s := "123456"   # "1234567" 是字符串字面量，在编译时就分配好了空间，且只能读不能修改
@@ -54,7 +54,8 @@ type stringStruct struct {
    #	print(s)
    #}
    
-   # 只有字符串字面量在编译时就分配好内存，且位于 RODATA 只读内存段
+   # 编译结果如下
+   # 字符串字面量在编译时就分配好内存，且位于 RODATA 只读内存段
    go.string."123456" SRODATA dupok size=6
            0x0000 31 32 33 34 35 36                                123456
    go.string."7" SRODATA dupok size=1
@@ -68,6 +69,22 @@ type stringStruct struct {
 2. 保证对底层字符串的并发安全。
 
 ## 举例不是字面量时如何修改 string 底层内存空间  
+
+注意：只有字符串字面量会在编译时就分配在只读的内存段，而**运行时构建的字符串会存储在堆区或者栈区**。
+
+由于 stringStruct 和 slice 的内存空间类似，所以我们可以通过 unsafe 包将对 stringStruct 内部元素的操作转换成对 slice 内部元素的操作，从而**跨过了编译器不允许 `string[index] = '0'` 的操作**。
+
+```go
+type slice struct {
+    array unsafe.Pointer // 底层数组
+    len int
+    cap int
+}
+type stringStruct struct {
+	str unsafe.Pointer // 底层数组
+	len int 
+}
+```
 
 ```go
 package main
@@ -89,7 +106,7 @@ func main() {
 }
 
 func change(str string) string {
-	// 直接变成切片指针，然后再解引用变成切片，然后直接修改
+	// 转换成切片操作，赋值的是同一片内存空间，但避免编译器在编译时报错。
 	slices := *(*([]byte))(unsafe.Pointer(&str))
 	slices[0] = '0'
 	return *((*string)(unsafe.Pointer(&slices)))
