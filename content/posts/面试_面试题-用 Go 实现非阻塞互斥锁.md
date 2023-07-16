@@ -70,18 +70,18 @@ func main() {
 	m := make(map[int]int)
 	
 	for i := 0; i < 100; i++ {
-		go func() {
+		go func(i int) {
 			for {
 				if mutex.Lock() {
 					m[count] = count
-					print(count)
+					fmt.Printf("goroutinue %d : %d\n", i, count)
 					count++
-					time.Sleep(time.Second)
 					mutex.UnLock()
-				} 
+				}
+				// 防止解锁后立刻抢锁，大概率还是被这个 G 抢占
+				time.Sleep(time.Second) 
 			}
-			
-		}()
+		}(i)
 	}
 
 	var c  chan struct{}
