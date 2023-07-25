@@ -156,14 +156,20 @@ grpc-etcd
 
 syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
 
-option go_package = "grpc-grpc-client/pb";  // 指定生成的Go代码在你项目中的导入路径
+option go_package = "grpc-etcd/pb";  // 指定生成的Go代码在你项目中的导入路径
 
-package hello; // 包名
+package hello; // 包名，方便其他 proto 文件引入
 
-// 定义服务
-service Greeter {
+// 定义服务，到时候是 Greeter.SayHello。注册到服务发现中心的是 ip:port
+service Greeter1 {
     // SayHello 方法
-    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+    rpc SayHello1 (HelloRequest) returns (HelloResponse) {}
+}
+
+
+service Greeter2 {
+    // SayHello 方法
+    rpc SayHello2 (HelloRequest) returns (HelloResponse) {}
 }
 
 // 请求消息
