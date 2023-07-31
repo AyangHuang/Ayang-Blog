@@ -87,8 +87,31 @@ Etcd 是一个开源的分布式键值存储系统，用于在分布式系统中
 
 3. watch 机制：就是实时监听某一个 key，当 key 发生变化时，监听的服务可以快速发现。
    ```shell
-    ayang@Ubuntu22:~$ etcdctl watch ayang
-      # 会阻塞监听 ayang key 的变化，当变化时会即时接收到新的值**
+    # 初始化
+    ayang@Ubuntu22:~$ etcdctl put ayang/server1 address1
+	OK
+	ayang@Ubuntu22:~$ etcdctl put ayang/server2 address2
+	OK
+	ayang@Ubuntu22:~$ etcdctl get --prefix ""
+	ayang/server1
+	address1
+	ayang/server2
+	address2
+	# watch 时会阻塞监听状态变化
+	ayang@Ubuntu22:~$ etcdctl watch --prefix ayang/server
+	PUT
+	ayang/server1
+	addresstest
+	DELETE
+	ayang/server2
+   ```
+
+   ```shell
+    # 另一个客户端修改数据
+	ayang@Ubuntu22:~$ etcdctl put ayang/server1 addresstest
+	OK
+	ayang@Ubuntu22:~$ etcdctl del ayang/server2
+	1
    ```
 
 4. 租约机制。注意：多个 key 可以共用同一个租约，可以给租约续期。
@@ -454,9 +477,11 @@ func main() {
 最后整理下整体的逻辑。（注意跟上面的整体逻辑进行对比，增加了一些细节）
 
 1. 服务注册：  
-   grpc 服务端以 key：value = **serverName/serverN：ip:port** 的键值对存入注册中心 etcd 中。serverName/serverN 中的 serverN 可以是任意的，只要识别出不同的 grpc 服务实例即可。
+   1. grpc 服务端以 key：value = **serverName/serverN：ip:port** 的键值对存入注册中心 etcd 中，并带上租约。（注意：serverName/serverN 中的 serverN 可以是任意的，只要识别出不同的 grpc 服务实例即可。）  
+   2. grpc 服务端主动发送心跳，即对存储的 key:value 所属的租约每隔一段时间进行续期。  
+
 
 2. 服务发现：  
-   grpc 客户端指定 serverName 为 **key 前缀**从注册中心拉去 value，即获得该 grpc 服务的多个实例地址（如有的话）；
+   1. grpc 客户端指定 serverName 为 **key 前缀**从注册中心拉去 value，即获得该 grpc 服务的多个实例地址（如有的话）；（注意：grpc 客户端注入了 etcd 客户端，所以会利用 etcd 的 watch 机制监听 key:value 变化）
 
 {{< image src="/images/grpc  基于 etcd 服务发现/完整整体逻辑.png" width=100% height=100% caption="完整整体逻辑" >}}
