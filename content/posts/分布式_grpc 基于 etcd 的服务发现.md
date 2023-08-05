@@ -127,7 +127,7 @@ Etcd 是一个开源的分布式键值存储系统，用于在分布式系统中
 
 1. 集中式负载均衡（Proxy Model）  
    例如 Nginx
-    
+   
     {{< image src="/images/grpc  基于 etcd 服务发现/集中式负载均衡.png" width=100% height=100% caption="集中式负载均衡" >}}  
 
 	**缺点**：  
@@ -208,7 +208,7 @@ message HelloResponse {
 
 ### grpc 服务端
 
-注意：两个不同的 grpc 服务端。
+注意：两个不同的 grpc 服务端表示两个不同的微服务。
 
 ```go
 // grpc-etcd/grpc-server/mian.go
@@ -456,7 +456,7 @@ func main() {
 修改客户端代码     
 （1）serverNamePreResolve = "etcd:///ayang/server"    
 （2）同时注释掉负载均衡的注释，即开启轮询的负载均衡  
-   
+
 结果：在第一次调用或第二次调用会发生错误
 
 ```bash
