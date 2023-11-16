@@ -20,8 +20,8 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "每天一篇文章"
-date: 2023-11-14T00:00:00+08:00
-lastmod: 2023-11-14T00:00:00+08:00
+date: 2023-11-15T00:00:00+08:00
+lastmod: 2023-11-15T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
@@ -38,15 +38,21 @@ tags: []
 
 ### 11 月
 
+#### 11.15
+
+URL：<a href="https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A" target="_blank">https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A</a>
+
+总结：主要讲解了由于响应时长毛刺问题引出 GC 调优。本质问题：GC 阈值设置太低，比上一次 GC 后活跃内存增加 100% 即 GC，导致 GC 频繁，进而导致 STW 时间较长，产生请求响应时间毛刺。最后通过设置百分比为 160% 和设置最大阈值为 1600 MB 降低 GC 频率
+
 #### 11.14
 
 URL：<a href="https://mp.weixin.qq.com/s/Siz3YHxsobRIbZC1JYKMhw" target="_blank">https://mp.weixin.qq.com/s/Siz3YHxsobRIbZC1JYKMhw</a>
 
-总结：主要讲解了网盘系统的简要设计。主要学到大文件的元数据（关系型数据库）和文件内容（对象存储服务器）分开存储，大文件分 block，可实现并行传输、断点续传。
+总结：主要讲解了网盘系统的简要设计。主要学到大文件的元数据（关系型数据库）和文件内容（对象存储服务器）分开存储，大文件分 block，可实现并行传输、断点续传
 
 URL：<a href="https://mp.weixin.qq.com/s/ySA-RbJcC5iVIKqL2GZMaA" target="_blank">https://mp.weixin.qq.com/s/ySA-RbJcC5iVIKqL2GZMaA</a>
 
-总结：主要讲解短链系统的简要设计。没我设计得好哈哈，下面图是我设计的哈哈。
+总结：主要讲解短链系统的简要设计。没我设计得好哈哈，下面图是我设计的哈哈
 
 {{< image src="/images/每天一篇文章/短链系统.png" width=100% height=100% caption="短链系统" >}}
 
@@ -54,7 +60,7 @@ URL：<a href="https://mp.weixin.qq.com/s/ySA-RbJcC5iVIKqL2GZMaA" target="_blank
 
 URL：<a href="https://mp.weixin.qq.com/s/P-DseTGlD2IA1KQVrKWlPg" target="_blank">https://mp.weixin.qq.com/s/P-DseTGlD2IA1KQVrKWlPg</a>
 
-总结：主要讲解了微服务的优缺点和适用场景。
+总结：主要讲解了微服务的优缺点和适用场景
 
 {{< image src="/images/每天一篇文章/微服务的优缺点.png" width=100% height=100% caption="微服务优缺点" >}}
 
