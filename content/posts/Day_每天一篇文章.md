@@ -38,6 +38,15 @@ tags: []
 
 ### 11 月
 
+#### 11.16
+
+URL 1：<a href="https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw" target="_blank">https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw</a>  
+URL 2：<a href="https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw" target="_blank">https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw</a>
+
+总结：主要讲解了 MySQL 10 亿数据量如何快速插入的问题
+
+{{< image src="/images/每天一篇文章/MySQL 10 亿数据插入.png" width=100% height=100% caption="MySQL 10 亿数据插入" >}}
+
 #### 11.15
 
 URL：<a href="https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A" target="_blank">https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A</a>
