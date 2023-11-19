@@ -19,9 +19,9 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: false
 # 上面一般不用动
-title: "每天一篇文章"
-date: 2023-11-15T00:00:00+08:00
-lastmod: 2023-11-15T00:00:00+08:00
+title: "每天阅读一篇文章"
+date: 2023-11-16T00:00:00+08:00
+lastmod: 2023-11-16T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
@@ -41,11 +41,14 @@ tags: []
 #### 11.16
 
 URL 1：<a href="https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw" target="_blank">https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw</a>  
-URL 2：<a href="https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw" target="_blank">https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw</a>
+URL 2：<a href="https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw" target="_blank">https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw</a>   
+URL 2：<a href="https://mp.weixin.qq.com/s/mWL7eacJyYg-6evQZmBVWQ" target="_blank">https://mp.weixin.qq.com/s/mWL7eacJyYg-6evQZmBVWQ</a>    
 
 总结：主要讲解了 MySQL 10 亿数据量如何快速插入的问题
 
 {{< image src="/images/每天一篇文章/MySQL 10 亿数据插入.png" width=100% height=100% caption="MySQL 10 亿数据插入" >}}
+
+{{< image src="/images/每天一篇文章/2 kw 数据？.png" width=100% height=100% caption="2 kw 数据？.png" >}}
 
 #### 11.15
 
