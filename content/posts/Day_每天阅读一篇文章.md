@@ -20,8 +20,8 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "每天阅读一篇文章"
-date: 2023-11-20T00:00:00+08:00
-lastmod: 2023-11-20T00:00:00+08:00
+date: 2023-11-23T00:00:00+08:00
+lastmod: 2023-11-23T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
@@ -38,17 +38,47 @@ tags: []
 
 ### 11 月
 
+### 12 月
+
+#### 12.06
+
+#### 12.05
+
+#### 12.04
+
+#### 11.30
+
+#### 11.29
+
+#### 11.28
+
 #### 11.27
 
 #### 11.24
 
-#### 11.23
+#### 11.23 视频直播如何工作
 
-#### 11.22
+URL：<a href="https://mp.weixin.qq.com/s/YqeJvwBtEf0UKr3EzrJ2iQ" target="_blank">https://mp.weixin.qq.com/s/YqeJvwBtEf0UKr3EzrJ2iQ</a>    
 
-#### 11.21
 
-URL 1：<a href="https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ" target="_blank">https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ</a>    
+#### 11.22 SQL 索引优化
+
+URL：<a href="https://mp.weixin.qq.com/s/sAxUb9ho6eYxjrwNkRENJA" target="_blank">https://mp.weixin.qq.com/s/sAxUb9ho6eYxjrwNkRENJA</a>    
+
+总结：
+
+#### 11.21 百亿数据索引和更新
+
+URL：<a href="https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ" target="_blank">https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ</a>    
+
+总结：讲解了使用 MySQL 同步到 ES 为了更好的快速、复杂查询的方案
+
+{{< image src="/images/每天一篇文章/百亿数据索引和更新.png" width=100% height=100% caption="百亿数据索引和更新" >}}
+
+但是，文章只讲解了大概思路，但是具体实现没讲，受限于篇幅的原因，就没讲把：
+
+1. ES 索引全量更新指的什么？如何更新？  
+2. MySQL 宽表是从订阅 MySQL binlog，写 MQ，消费 MQ 写入宽表数据的，那如何保证宽表和 MySQL 原表的一致性？
 
 #### 11.20 跨域问题
 
