@@ -34,21 +34,70 @@ tags: []
 2. 看的时候也复习下涉及的知识  
 3. 文章不同于书籍，会较口语化，也会更加注重实战
 
+PS：从微信公众号，点击“复制链接”，都是短链的方式，不知道这种**短链的映射时间是否永久**~~~
+
+## 推荐的订阅
+
+架构师合集：<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkzMDI0ODg4NQ==&action=getalbum&album_id=2247053463681564673" target="_blank">https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkzMDI0ODg4NQ==&action=getalbum&album_id=2247053463681564673</a>   
+
 ## 2023
 
 ### 11 月
 
 ### 12 月
 
-#### 12.06
+#### 12.11
 
-#### 12.05
+#### 12.07 职场新人-如何快速变得专业
 
-#### 12.04
+URL 1：<a href="https://mp.weixin.qq.com/s/TFCrRQT3k5P2Pz3YOWfMKw" target="_blank">https://mp.weixin.qq.com/s/TFCrRQT3k5P2Pz3YOWfMKw</a>   
+URL 2：<a href="https://mp.weixin.qq.com/s/LIpXt9aCHGqrV1s0jddMnw" target="_blank">https://mp.weixin.qq.com/s/LIpXt9aCHGqrV1s0jddMnw</a>   
 
-#### 11.30
+总结：首先讲了新人的定义：**不熟练、不系统、不严谨、不开放**，然后讲解了如何通过**快速变得熟练、能够系统化思考、以严谨的态度、开放的心态去展开工作**快速变得专业
 
-#### 11.29
+* 快速变得熟练：快速了解并学会使用你日常工作需要的工具
+  * 研发类工具（git，idea 插件）
+  * 运维类工具（日志查询平台、系统监控平台）
+  * 泛文档类工具
+* 能够系统化思考
+  * 提升思考全面性  
+    团队的文档模板（例如技术文档中通常会要求你考虑一些工程方面的内容例如“变更风险评估”、“上下游影响面分析”、“安全评估”、“容量评估”、“切流设计”等等）
+  * 提升内容逻辑性  
+    目前存在的问题->产生问题的原因->已有的方法能否复用解决，新的解决方法->会不会产生新的影响
+* 以严谨的态度
+  * 技术方案考虑的是长期性、可维护性
+* 以开放的心态
+  * 勇于承担事情，要主动揽不重复的、自己不熟悉（能够促进自己学习）的活
+  * 不要害怕犯错
+
+最近在字节实习了快三个月，这两篇文章看下来，感触颇多。能够总结下这两篇文章，真的很厉害。反思下自己，或多或少上面的问题都有存在着。例如  
+1. 能够系统化思考：
+   1. 越底层的接口应该考虑长期性、通用性
+   2. 当问 mentor 说 api 层为什么没有 swagger 或者内部的 bam 时，回复是旧项目，框架不支持。但是仅仅到这里就结束了，没有想为什么不支持以及如何去支持
+2. 以开放的心态：
+   1. 自己只等着 mentor 发放需求，没有主动揽活
+   2. 害怕犯错，很多时候都是一对一联系，而不是群里同步联系
+   
+希望下次实习或者正式工作，对于以上四点，能够有所成长把~
+
+#### 12.06 大厂二面重点
+
+URL：<a href="https://mp.weixin.qq.com/s/8IzKAWNqqaCE9xL6nqFClQ" target="_blank">https://mp.weixin.qq.com/s/8IzKAWNqqaCE9xL6nqFClQ</a>  
+
+总结：讲解了大厂二面的重点：不能在于面经层面，而应该是**重视实践，问题拆解，重视细节**
+
+#### 12.05 架构师：提升系统稳定性
+
+URL 1：<a href="https://mp.weixin.qq.com/s/2sbvHavhqQw5QQilHdSY2w" target="_blank">https://mp.weixin.qq.com/s/2sbvHavhqQw5QQilHdSY2w</a>   
+URL 2：<a href="https://mp.weixin.qq.com/s/3l0XvssIbYVhhtJa0qCyeA" target="_blank">https://mp.weixin.qq.com/s/3l0XvssIbYVhhtJa0qCyeA</a>  
+
+#### 12.04 架构师：提升系统读性能
+
+#### 11.30 架构师：提升系统写性能
+
+#### 11.29 幂等性
+
+URL：<a href="https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw" target="_blank">https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw</a>   
 
 #### 11.28
 
@@ -77,7 +126,7 @@ URL：<a href="https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ" target="_blank
 
 但是，文章只讲解了大概思路，但是具体实现没讲，受限于篇幅的原因，就没讲把：
 
-1. ES 索引全量更新指的什么？如何更新？  
+1. ES 索引全量更新指的什么？如何更新？指的是从宽表重新构建整个新的索引？（问了作者，是的，就是重新建立整个 ES 索引） 
 2. MySQL 宽表是从订阅 MySQL binlog，写 MQ，消费 MQ 写入宽表数据的，那如何保证宽表和 MySQL 原表的一致性？
 
 #### 11.20 跨域问题
