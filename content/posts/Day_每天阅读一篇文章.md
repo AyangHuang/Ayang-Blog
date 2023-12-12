@@ -20,8 +20,8 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "每天阅读一篇文章"
-date: 2023-11-23T00:00:00+08:00
-lastmod: 2023-11-23T00:00:00+08:00
+date: 2023-12-13T00:00:00+08:00
+lastmod: 2023-12-13T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
@@ -45,6 +45,10 @@ PS：从微信公众号，点击“复制链接”，都是短链的方式，不
 
 
 ### 12 月
+
+#### 12.13
+
+#### 12.12
 
 #### 12.11
 
@@ -100,6 +104,12 @@ URL 2：<a href="https://mp.weixin.qq.com/s/3l0XvssIbYVhhtJa0qCyeA" target="_bla
 #### 11.29 幂等性
 
 URL：<a href="https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw" target="_blank">https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw</a>   
+
+总结：讲解了支付幂等场景的解决方案。（但总感觉缺少很多细节）
+
+下面是我总结了幂等的常见解决方案：
+
+{{< image src="/images/每天一篇文章/请求幂等.png" width=100% height=100% caption="请求幂等" >}}
 
 #### 11.28
 
