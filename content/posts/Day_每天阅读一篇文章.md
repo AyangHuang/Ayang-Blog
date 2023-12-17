@@ -19,14 +19,14 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: false
 # 上面一般不用动
-title: "每天阅读一篇文章"
+title: "每三天阅读一篇文章"
 date: 2023-12-13T00:00:00+08:00
 lastmod: 2023-12-13T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
 
-从 2023.11.12 起，每天观看一篇文章（周五六日除外，复盘），文章大部分来源微信公众号。因为我关注了好多编程公众号，收藏了好多文章，但是好多都没仔细看过。之前在学校的时候，会在吃饭的时候慢慢看，但是现在在公司，吃饭跟同事吃，都没看哈哈。所以攒了好多哈哈。
+从 2023.11.12 起，3 天分享一篇文章，文章大部分来源微信公众号。因为我关注了好多编程公众号，收藏了好多文章，但是好多都没仔细看过。之前在学校的时候，会在吃饭的时候慢慢看，但是现在在公司，吃饭跟同事吃，都没看哈哈。所以攒了好多哈哈。
 
 **目的**有：
 
@@ -40,19 +40,36 @@ PS：从微信公众号，点击“复制链接”，都是短链的方式，不
 
 架构师合集：<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkzMDI0ODg4NQ==&action=getalbum&album_id=2247053463681564673" target="_blank">https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzkzMDI0ODg4NQ==&action=getalbum&album_id=2247053463681564673</a>   
 
+## 2024
+
+### 1 月
+
+#### 01.01
+
+#### 01.04
+
 ## 2023
-
-
 
 ### 12 月
 
-#### 12.13
+#### 12.31
 
-#### 12.12
+#### 12.28
 
-#### 12.11
+#### 12.25 什么是云原生
 
-#### 12.07 职场新人-如何快速变得专业
+URL：<a href="https://mp.weixin.qq.com/s/fsO4Zh1spalmrIwxtn8fvw" target="_blank">https://mp.weixin.qq.com/s/fsO4Zh1spalmrIwxtn8fvw</a>
+
+总结：该文章通过一张图概括了软件架构和流程的演变。概括了云原生的 4 点：
+
+1. 开发流程：DevOps，开发、测试、部署、运维紧密相连  
+2. 应用架构：从单体向微服务转变，每一个微服务很小  
+3. 部署和打包：打包成镜像并部署在容器中（区别于直接部署在物理机上），例如 docker  
+4. 基础设施：部署在云基础设施上，不管是公有云还是私有云，可以动态扩容和缩容  
+
+{{< image src="/images/每天一篇文章/什么是云原生.png" width=100% height=100% caption="什么是云原生" >}}
+
+#### 12.22 职场新人-如何快速变得专业
 
 URL 1：<a href="https://mp.weixin.qq.com/s/TFCrRQT3k5P2Pz3YOWfMKw" target="_blank">https://mp.weixin.qq.com/s/TFCrRQT3k5P2Pz3YOWfMKw</a>   
 URL 2：<a href="https://mp.weixin.qq.com/s/LIpXt9aCHGqrV1s0jddMnw" target="_blank">https://mp.weixin.qq.com/s/LIpXt9aCHGqrV1s0jddMnw</a>   
@@ -84,24 +101,22 @@ URL 2：<a href="https://mp.weixin.qq.com/s/LIpXt9aCHGqrV1s0jddMnw" target="_bla
    
 希望下次实习或者正式工作，对于以上四点，能够有所成长把~
 
-#### 12.06 大厂二面重点
+#### 12.19 大厂二面重点
 
 URL：<a href="https://mp.weixin.qq.com/s/8IzKAWNqqaCE9xL6nqFClQ" target="_blank">https://mp.weixin.qq.com/s/8IzKAWNqqaCE9xL6nqFClQ</a>  
 
 总结：讲解了大厂二面的重点：不能在于面经层面，而应该是**重视实践，问题拆解，重视细节**
 
-#### 12.05 架构师：提升系统稳定性
+#### 12.16 架构师：提升系统稳定性
 
 URL 1：<a href="https://mp.weixin.qq.com/s/2sbvHavhqQw5QQilHdSY2w" target="_blank">https://mp.weixin.qq.com/s/2sbvHavhqQw5QQilHdSY2w</a>   
 URL 2：<a href="https://mp.weixin.qq.com/s/3l0XvssIbYVhhtJa0qCyeA" target="_blank">https://mp.weixin.qq.com/s/3l0XvssIbYVhhtJa0qCyeA</a>  
 
-#### 12.04 架构师：提升系统读性能
+#### 12.13 架构师：提升系统读性能
 
-### 11 月
+#### 12.10 架构师：提升系统写性能
 
-#### 11.30 架构师：提升系统写性能
-
-#### 11.29 幂等性
+#### 12.07 幂等性
 
 URL：<a href="https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw" target="_blank">https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw</a>   
 
@@ -111,24 +126,20 @@ URL：<a href="https://mp.weixin.qq.com/s/QufXfnJj5kPX8K3M5gICqw" target="_blank
 
 {{< image src="/images/每天一篇文章/请求幂等.png" width=100% height=100% caption="请求幂等" >}}
 
-#### 11.28
-
-#### 11.27
-
-#### 11.24
-
-#### 11.23 视频直播如何工作
+#### 12.04 视频直播如何工作
 
 URL：<a href="https://mp.weixin.qq.com/s/YqeJvwBtEf0UKr3EzrJ2iQ" target="_blank">https://mp.weixin.qq.com/s/YqeJvwBtEf0UKr3EzrJ2iQ</a>    
 
 
-#### 11.22 SQL 索引优化
+#### 12.01 SQL 索引优化
 
 URL：<a href="https://mp.weixin.qq.com/s/sAxUb9ho6eYxjrwNkRENJA" target="_blank">https://mp.weixin.qq.com/s/sAxUb9ho6eYxjrwNkRENJA</a>    
 
 总结：
 
-#### 11.21 百亿数据索引和更新
+### 11 月
+
+#### 11.28 百亿数据索引和更新
 
 URL：<a href="https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ" target="_blank">https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ</a>    
 
@@ -141,7 +152,7 @@ URL：<a href="https://mp.weixin.qq.com/s/dOH7bQc2CsP2ZjiC76ZEpQ" target="_blank
 1. ES 索引全量更新指的什么？如何更新？指的是从宽表重新构建整个新的索引？（问了作者，是的，就是重新建立整个 ES 索引） 
 2. MySQL 宽表是从订阅 MySQL binlog，写 MQ，消费 MQ 写入宽表数据的，那如何保证宽表和 MySQL 原表的一致性？
 
-#### 11.20 跨域问题
+#### 11.25 跨域问题
 
 URL 1：<a href="https://mp.weixin.qq.com/s/PSViiWNSZiq2Tu04D11Lmw" target="_blank">https://mp.weixin.qq.com/s/PSViiWNSZiq2Tu04D11Lmw</a>    
 URL 2：<a href="https://blog.csdn.net/weixin_42318691/article/details/121187785" target="_blank">https://blog.csdn.net/weixin_42318691/article/details/121187785</a>    
@@ -190,7 +201,7 @@ console.log("成功");
 
 {{< image src="/images/每天一篇文章/cors.png" width=100% height=100% caption="cors" >}}
 
-#### 11.16 MySQL 大数据量快速插入
+#### 11.22 MySQL 大数据量快速插入
 
 URL 1：<a href="https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw" target="_blank">https://mp.weixin.qq.com/s/mwXOAsmh2RQaTTR-57VXsw</a>  
 URL 2：<a href="https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw" target="_blank">https://mp.weixin.qq.com/s/DieIcM-BNHkL9aT6JU7Epw</a>   
@@ -202,13 +213,13 @@ URL 3：<a href="https://mp.weixin.qq.com/s/mWL7eacJyYg-6evQZmBVWQ" target="_bla
 
 {{< image src="/images/每天一篇文章/2 kw 数据？.png" width=100% height=100% caption="2 kw 数据" >}}
 
-#### 11.15 Go GC 调优
+#### 11.19 Go GC 调优
 
 URL：<a href="https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A" target="_blank">https://mp.weixin.qq.com/s/xDb4PFmd3eDx3pbxgwtd7A</a>
 
 总结：主要讲解了由于响应时长毛刺问题引出 GC 调优。本质问题：GC 阈值设置太低，比上一次 GC 后活跃内存增加 100% 即 GC，导致 GC 频繁，进而导致 STW 时间较长，产生请求响应时间毛刺。最后通过设置百分比为 160% 和设置最大阈值为 1600 MB 降低 GC 频率
 
-#### 11.14 网盘/短链系统设计
+#### 11.16 网盘/短链系统设计
 
 URL：<a href="https://mp.weixin.qq.com/s/Siz3YHxsobRIbZC1JYKMhw" target="_blank">https://mp.weixin.qq.com/s/Siz3YHxsobRIbZC1JYKMhw</a>
 
