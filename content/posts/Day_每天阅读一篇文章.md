@@ -19,20 +19,21 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: false
 # 上面一般不用动
-title: "每三天阅读一篇文章"
+title: "cron job：阅读文章"
 date: 2023-12-13T00:00:00+08:00
 lastmod: 2023-12-13T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
 
-从 2023.11.12 起，3 天分享一篇文章，文章大部分来源微信公众号。因为我关注了好多编程公众号，收藏了好多文章，但是好多都没仔细看过。之前在学校的时候，会在吃饭的时候慢慢看，但是现在在公司，吃饭跟同事吃，都没看哈哈。所以攒了好多哈哈。
+从 2023.11.12 起，每 3 天阅读分享一篇文章，文章大部分来源微信公众号。因为我关注了好多编程公众号，收藏了好多文章，但是好多都没仔细看过。之前在学校的时候，会在吃饭的时候慢慢看，但是现在在公司，吃饭跟同事吃，都没看哈哈。所以攒了好多哈哈。
 
 **目的**有：
 
-1. 逼迫自己每天学习一点知识，细水长流    
+1. push 自己周期性学习知识，细水长流    
 2. 看的时候也复习下涉及的知识  
-3. 文章不同于书籍，会较口语化，也会更加注重实战
+3. 文章不同于书籍，会较口语化，也会更加注重实战  
+4. 留下记录，定时回顾复习  
 
 PS：从微信公众号，点击“复制链接”，都是短链的方式，不知道这种**短链的映射时间是否永久**~~~
 
@@ -44,17 +45,61 @@ PS：从微信公众号，点击“复制链接”，都是短链的方式，不
 
 ### 1 月
 
-#### 01.01
+#### 01.21
 
-#### 01.04
+#### 01.20
+
+#### 01.19
+
+#### 01.16
+
+#### 01.13
+
+#### 01.10
+
+#### 01.07 异构存储
+
+URL 1：<a href="https://mp.weixin.qq.com/s/Se_WkDhAls4PA8DQ5jqmvQ" target="_blank">https://mp.weixin.qq.com/s/Se_WkDhAls4PA8DQ5jqmvQ</a>    
+URL 2：<a href="https://mp.weixin.qq.com/s/4x7WoOMmhLrVfFpgKKrgZQ" target="_blank">https://mp.weixin.qq.com/s/4x7WoOMmhLrVfFpgKKrgZQ</a>   
+URL 3：<a href="https://mp.weixin.qq.com/s/vn0JTD7Rq_8PNdBIbk3IhA" target="_blank">https://mp.weixin.qq.com/s/vn0JTD7Rq_8PNdBIbk3IhA</a>    
+
+总结：开拓视野把，实际上就我实习来说，非常多的场景都需要异构数据，不同数据库提供了不同场景下的能力
+
+{{< image src="/images/每天一篇文章/异构存储.png" width=100% height=100% caption="异构存储" >}} 
+
+#### 01.04 Raft 简学
+
+URL：<a href="https://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%ae%9e%e8%b7%b5%e4%b9%8b%e8%b7%af%ef%bc%88%e5%ae%8c%ef%bc%89/09%20%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%80%e8%87%b4%e6%80%a7%e7%ae%97%e6%b3%95%20Raft%20%e5%92%8c%20Etcd%20%e5%8e%9f%e7%90%86%e8%a7%a3%e6%9e%90.md" target="_blank">https://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%ae%9e%e8%b7%b5%e4%b9%8b%e8%b7%af%ef%bc%88%e5%ae%8c%ef%bc%89/09%20%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%80%e8%87%b4%e6%80%a7%e7%ae%97%e6%b3%95%20Raft%20%e5%92%8c%20Etcd%20%e5%8e%9f%e7%90%86%e8%a7%a3%e6%9e%90.md</a>
+
+总结：讲解了 Raft 三个子问题，清晰地列举步骤一、二等。虽然每个步骤没有往深处讲，但真的非常清晰。建议搭配 B 站 UP 主“戌米的论文笔记”的讲解 Raft 的视频食用更佳。
+
+{{< image src="/images/每天一篇文章/Raft1.png" width=100% height=100% caption="Leader 选举" >}}
+
+{{< image src="/images/每天一篇文章/Raft2.png" width=100% height=100% caption="日志复制" >}}
+
+{{< image src="/images/每天一篇文章/Raft3.png" width=100% height=100% caption="日志存储格式" >}}
 
 ## 2023
 
 ### 12 月
 
-#### 12.31
+#### 01.01 淘宝购物车扩容
 
-#### 12.28
+URL：<a href="https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg" target="_blank">https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg</a>
+
+#### 12.31 ETCD 分布式公平锁
+
+URL：<a href="https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E8%B7%B5%E4%B9%8B%E8%B7%AF%EF%BC%88%E5%AE%8C%EF%BC%89/10%20%E5%9F%BA%E4%BA%8E%20Etcd%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E6%96%B9%E6%A1%88.md" target="_blank">https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%9E%E8%B7%B5%E4%B9%8B%E8%B7%AF%EF%BC%88%E5%AE%8C%EF%BC%89/10%20%E5%9F%BA%E4%BA%8E%20Etcd%20%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E6%96%B9%E6%A1%88.md</a>
+
+总结：ETCD 实现分布公平锁主要依赖于其 prefix 机制和 revision 机制
+
+#### 12.28 分布式锁 
+
+URL：<a href="https://mp.weixin.qq.com/s/yZC6VJGxt1ANZkn0SljZBg" target="_blank">https://mp.weixin.qq.com/s/yZC6VJGxt1ANZkn0SljZBg</a>
+
+总结：很全面的分布式锁各方面的讲解
+
+{{< image src="/images/每天一篇文章/分布式锁.png" width=100% height=100% caption="Redis 分布式锁" >}}
 
 #### 12.25 什么是云原生
 
