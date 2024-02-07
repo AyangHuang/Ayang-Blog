@@ -43,21 +43,9 @@ PS：从微信公众号，点击“复制链接”，都是短链的方式，不
 
 ## 2024
 
-### 1 月
+### 2 月
 
-#### 01.21
-
-#### 01.20
-
-#### 01.19
-
-#### 01.16
-
-#### 01.13
-
-#### 01.10
-
-#### 01.07 异构存储
+#### 02.07 异构存储
 
 URL 1：<a href="https://mp.weixin.qq.com/s/Se_WkDhAls4PA8DQ5jqmvQ" target="_blank">https://mp.weixin.qq.com/s/Se_WkDhAls4PA8DQ5jqmvQ</a>    
 URL 2：<a href="https://mp.weixin.qq.com/s/4x7WoOMmhLrVfFpgKKrgZQ" target="_blank">https://mp.weixin.qq.com/s/4x7WoOMmhLrVfFpgKKrgZQ</a>   
@@ -67,7 +55,11 @@ URL 3：<a href="https://mp.weixin.qq.com/s/vn0JTD7Rq_8PNdBIbk3IhA" target="_bla
 
 {{< image src="/images/每天一篇文章/异构存储.png" width=100% height=100% caption="异构存储" >}} 
 
-#### 01.04 Raft 简学
+#### 02.04 淘宝购物车扩容
+
+URL：<a href="https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg" target="_blank">https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg</a>
+
+#### 02.01 Raft 简学
 
 URL：<a href="https://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%ae%9e%e8%b7%b5%e4%b9%8b%e8%b7%af%ef%bc%88%e5%ae%8c%ef%bc%89/09%20%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%80%e8%87%b4%e6%80%a7%e7%ae%97%e6%b3%95%20Raft%20%e5%92%8c%20Etcd%20%e5%8e%9f%e7%90%86%e8%a7%a3%e6%9e%90.md" target="_blank">https://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%ad%e9%97%b4%e4%bb%b6%e5%ae%9e%e8%b7%b5%e4%b9%8b%e8%b7%af%ef%bc%88%e5%ae%8c%ef%bc%89/09%20%e5%88%86%e5%b8%83%e5%bc%8f%e4%b8%80%e8%87%b4%e6%80%a7%e7%ae%97%e6%b3%95%20Raft%20%e5%92%8c%20Etcd%20%e5%8e%9f%e7%90%86%e8%a7%a3%e6%9e%90.md</a>
 
@@ -82,10 +74,6 @@ URL：<a href="https://learn.lianglianglee.com/%e4%b8%93%e6%a0%8f/%e5%88%86%e5%b
 ## 2023
 
 ### 12 月
-
-#### 01.01 淘宝购物车扩容
-
-URL：<a href="https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg" target="_blank">https://mp.weixin.qq.com/s/CAUZIIOxsr6kHZcgHvtrcg</a>
 
 #### 12.31 ETCD 分布式公平锁
 
