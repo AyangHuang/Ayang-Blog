@@ -19,7 +19,7 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: false
 # 上面一般不用动
-title: "Hugo 小站规范"
+title: "Go 适合网络 IO？"
 date: 2024-02-08T01:12:45+08:00
 lastmod: 2024-02-08T01:12:45+08:00
 categories: ["Go"]
@@ -243,6 +243,6 @@ func printThreadInfo(preStr string, name string, arg ...string) {
  223184  223191 pts/1    00:00:00 main
 ```
 
-结论：磁盘 IO 导致线程组织，网络 IO 可以切换协程执行，体现为多网络 IO（请求）并发处理
+结论：磁盘 IO 导致线程阻塞，网络 IO 可以切换协程执行，体现为多网络 IO（请求）并发处理
 
 ## End
