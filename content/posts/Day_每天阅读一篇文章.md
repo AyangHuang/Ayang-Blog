@@ -20,8 +20,8 @@
 linkToMarkdown: false
 # 上面一般不用动
 title: "cron job：阅读文章"
-date: 2023-12-13T00:00:00+08:00
-lastmod: 2023-12-13T00:00:00+08:00
+date: 2024-02-07T00:00:00+08:00
+lastmod: 2024-02-07T00:00:00+08:00
 categories: ["Day"]
 tags: []
 ---
@@ -44,6 +44,10 @@ PS：从微信公众号，点击“复制链接”，都是短链的方式，不
 ## 2024
 
 ### 2 月
+
+#### 02.10 异地多活
+
+URL：<a href="https://mp.weixin.qq.com/s/T6mMDdtTfBuIiEowCpqu6Q" target="_blank">https://mp.weixin.qq.com/s/T6mMDdtTfBuIiEowCpqu6Q</a>
 
 #### 02.07 异构存储
 
