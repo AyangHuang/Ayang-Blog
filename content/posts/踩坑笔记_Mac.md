@@ -21,7 +21,7 @@ linkToMarkdown: false
 # 上面一般不用动
 title: "Mac 使用"
 date: 2024-03-20T01:12:45+08:00
-lastmod: 2024-03-20T15:58:26+08:00
+lastmod: 2024-03-20T01:12:45+08:00
 categories: ["踩坑笔记"]
 tags: ["Hugo", "Markdown"]
 ---
