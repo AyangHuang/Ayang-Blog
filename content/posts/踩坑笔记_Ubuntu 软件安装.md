@@ -21,7 +21,7 @@
 # 上面一般不用动
 title: "Ubuntu 软件安装"
 date: 2022-12-16T21:16:23+08:00
-lastmod: 2022-12-16T21:16:23+08:00
+lastmod: 2024-03-20T21:16:23+08:00
 categories: ["踩坑笔记"]
 tags: ["Ubuntu"]
 ---
@@ -109,7 +109,7 @@ Categories=Development;
 
 太早下载了，忘记记录了。
 
-## ToolBox 
+## ToolBox Idea Goland
 
 到官网下载 .tar.gz 文件
 
@@ -120,6 +120,10 @@ cd /usr/local/jetbrains-toolbox-1.27.1.13673
 ```
 
 然后直接下载 jetbrains 全家桶
+
+常用插件  
+* gittoolbox 查看每行代码提交插件
+* Translation 翻译插件
 
 ## go
 
@@ -222,6 +226,12 @@ ayang@Ubuntu22:~/Downloads$ tar -C /opt/clash -zxvf Clash.for.Windows-0.20.10-x6
 ayang@Ubuntu22:~/Downloads$ cd /opt/clash
 ayang@Ubuntu22:~/Downloads$ ./cfw
 ```
+
+推荐机场：https://ikuuu.pw/
+
+clash 配置绕过系统代理：  
+1. https://doc.clashforwindows.app/bypass/  
+2. https://jichanggo.com/clash%e9%ab%98%e7%ba%a7%e8%bf%9b%e9%98%b6%e6%95%99%e7%a8%8b
 
 ## 截图软件
 
