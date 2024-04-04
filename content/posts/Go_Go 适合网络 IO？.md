@@ -19,7 +19,7 @@
 # message:  加密提示信息，详见 主题文档 - 内容加密
 linkToMarkdown: false
 # 上面一般不用动
-title: "Go 适合网络 IO？"
+title: "Go 适合网络 IO"
 date: 2024-02-08T01:12:45+08:00
 lastmod: 2024-02-08T01:12:45+08:00
 categories: ["Go"]

@@ -81,4 +81,8 @@ ChatGPT：
   * 切换到某一个屏幕 `control + n`  
   * 不同应用的窗口切换 `command +tab`  
 
+#### Mac 如何进入 Users 目录
+
+打开访达，左上角 -> 前往 -> 打开文件夹；或者直接打开访达，cmm +  shift + G
+
 ## End
