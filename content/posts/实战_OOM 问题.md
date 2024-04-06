@@ -155,6 +155,6 @@ func (o *Once) doSlow(f func()) {
 
 ## 总结
 
-{{< image src="/images/OOM 问题/线上问题.png">}}
+{{< image src="/images/OOM 问题/总结.png">}}
 
 ## End
