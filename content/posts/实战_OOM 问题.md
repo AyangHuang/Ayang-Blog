@@ -97,9 +97,63 @@ func (s *Service) Process() {
 
 其实这个是个历史遗留问题，应该在服务启动的时候就执行该方法，而不是消费 MQ 时才**懒加载**
 
-## 总结
+## 本质问题：懒加载，解决：锁 + double check
 
-其实在字节实习的时候也因为**资源的并发懒加载**踩过坑，所以**懒加载**其实是个坑，一般放在 `main` 函数进行饿汉式加载即可，才不会出现并发问题。如果真要懒加载，那么该**加载函数一定要保证是并发安全**的
+其实在字节实习的时候也因为**资源的并发懒加载**踩过坑，所以**懒加载**其实是个坑，一般放在 `main` 函数进行**饿汉式加载**即可，才不会出现并发问题。如果真要**懒加载**，那么该**加载函数一定要保证是并发安全**的，很经典的 double check 问题
+
+例如：单例模式懒汉式的 double check
+
+```java
+public class DatabaseConn {
+    
+    private volatile static DatabaseConn databaseConn = null;
+    
+    private DatabaseConn() {
+    }
+    
+    public static DatabaseConn getInstance() {
+        // 第一次 check
+        if (databaseConn == null) {
+            synchronized (DatabaseConn.class) {
+                // 第二次 check
+                if (databaseConn == null) {
+                    databaseConn = new DatabaseConn();
+                }
+            }
+        }
+        return databaseConn;
+    }
+}
+```
+
+其实上面解决方法的 `sync.Once.Do(func)` 其实内部也是用来**互斥锁+ double check** 来实现快速校验和并发安全
+
+
+```go
+type Once struct {
+	done uint32
+	m    Mutex
+}
+
+func (o *Once) Do(f func()) {
+  // 第一次 check
+	if atomic.LoadUint32(&o.done) == 0 {
+		o.doSlow(f)
+	}
+}
+
+func (o *Once) doSlow(f func()) {
+	o.m.Lock()
+	defer o.m.Unlock()
+  // 第二次 check
+	if o.done == 0 {
+		defer atomic.StoreUint32(&o.done, 1)
+		f()
+	}
+}
+```
+
+## 总结
 
 {{< image src="/images/OOM 问题/线上问题.png">}}
 
