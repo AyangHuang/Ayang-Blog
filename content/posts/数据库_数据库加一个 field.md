@@ -59,20 +59,140 @@ online DDL 具体可看：http://mysql.taobao.org/monthly/2021/03/06/
 
 在原表的基础上增加 extra 表，那么就有两张表了
 
-extra 表定义如下
+extra 表定义如下：
 
+{{< image src="/images/数据库加一个 field/表.png" width=100% height=100% caption="表" >}}
 
-二级索引为基础表的 id  
-其实我理解如果查询比较多，写比较少的情况，可以直接把 extra 表主键设置为基础表的 id，这样可以杜绝回表
+索引如下：
 
-Add 和 Update 业务代码如下：
+{{< image src="/images/数据库加一个 field/索引.png" width=100% height=100% caption="索引" >}}
 
+其实我理解如果查询比较多，写比较少的情况，可以直接把 extra 表主键设置为基础表的 id，这样根据基础表的 id 进行查找的时候可以杜绝回表
+
+model 定义如下：
+
+```go
+type PropertyExtraField string //当前存在的扩展属性
+
+type PropertyExtra struct {
+	Id     int64     `gorm:"column:id" db:"id" json:"id" form:"id"`                 // 自增主键
+	IpId   string    `gorm:"column:ipid" db:"ipid" json:"ipid" form:"ipid"`         // psid
+	EName  string    `gorm:"column:ename" db:"ename" json:"ename" form:"ename"`     // 新增 field 名称
+	EValue string    `gorm:"column:evalue" db:"evalue" json:"evalue" form:"evalue"` // 新增 field 值
+	Ctime  time.Time `gorm:"column:ctime" db:"ctime" json:"ctime" form:"ctime"`     // 创建时间
+	Mtime  time.Time `gorm:"column:mtime" db:"mtime" json:"mtime" form:"mtime"`     // 更新时间
+}
+```
+
+**Add 和 Update 业务代码如下：**
+
+```go
+// 对一个 IpID 只对应一行的 EName 进行 Add 或 Update
+// 注意：一行，可以先查存在与否，然后再决定是插入还是更新（我觉得还是先删除再插入这种方法更好）
+func (s *Service) AddOrUpdatePropertyExtra(ctx context.Context, IpId string, EName dm.PropertyExtraProperty, EValue string) (res bool, err error) {
+	if IpId == "" {
+		return
+	}
+	EValue = strings.Trim(EValue, " ")
+	
+     if EValue == "" {
+		_, err = s.dmDao.DeleteVideoPropertyExtra(ctx, "ipid = ? and ename = ?", IpId, EName)
+		return
+	}
+
+	exists, _ := s.dmDao.VideoPropertyExtra(ctx, " ipid = ?  and ename = ?", IpId, EName)
+	// 存在
+     if exists == nil {
+		err = s.dmDao.SaveVideoPropertyExtra(ctx, &dm.PropertyExtra{
+			EName:  string(EName),
+			EValue: EValue,
+			IpId:   IpId,
+		})
+		if err != nil {
+			return
+		}
+		res = true
+		return
+	} else {
+          update := map[string]interface{}{"evalue": EValue}
+	     effectRows, err := s.dmDao.UpdateVideoPropertyExtra(ctx, update, "ipid = ? and ename = ?", IpId, EName)
+	     if err != nil {
+		     return
+	     }
+	     res = effectRows > 0
+	     return
+     }
+}
+```
+
+```go
+// 对一个 IpID 对应多行的 EName 进行 Add 或 Update
+// 注意：多行，只能先删除之前的，再保存
+func (s *Service) AddOrUpdatePropertyExtraSplit(ctx context.Context, IpId string, EName dm.PropertyExtraProperty, EValue string) {
+	var (
+		err error
+	)
+	if IpId == "" || EName == "" {
+		return
+	}
+     // 先删除
+	_, err = s.dmDao.DeleteVideoPropertyExtra(ctx, " ipid = ? and ename = ? ", IpId, EName)
+	if err != nil {
+		log.Errorc(ctx, "s.updatePropertyExtraSplit DeleteVideoPropertyExtra ipid(%s) ename(%s) err(%+v)", IpId, EName, err)
+	}
+	newValue := strings.Split(EValue, ",")
+	if len(newValue) == 0 {
+		return
+	}
+	for _, v := range newValue {
+		completeEValue := strings.Trim(v, " ")
+		if completeEValue == "" {
+			continue
+		}
+          // 保存
+		err := s.dmDao.SaveVideoPropertyExtra(ctx, &dm.PropertyExtra{
+			IpId:   IpId,
+			EName:  string(EName),
+			EValue: v,
+		})
+		if err != nil {
+			log.Warnc(ctx, "s.updatePropertyExtraSplit SaveVideoPropertyExtra ipid(%s) ename(%s) evalue(%s) err(%+v)", IpId, EName, v, err)
+		}
+	}
+}
+```
 
 
 Select 业务代码如下：
 
+```go
+// 一个 IpID 只对应一行的 EName
+func (s *Service) GetPropertyExtra(ctx context.Context, IpId string, EName dm.PropertyExtraProperty) (res string) {
+	extraInfo, err := s.dmDao.VideoPropertyExtra(ctx, "ipid = ? and ename = ?", IpId, EName)
+	if err != nil || extraInfo == nil {
+		return
+	}
+	res = extraInfo.EValue
+	return
+}
 
-优点：业务层改动较少  
+// 一个 IpID 对应多行的 EName
+func (s *Service) GetPropertyExtraSplit(ctx context.Context, IpId string, EName dm.PropertyExtraProperty) (res string) {
+	extraInfo, err := s.dmDao.VideoPropertyExtras(ctx, 0, 0, "", "ipid = ? and ename = ?", IpId, EName)
+	if err != nil || extraInfo == nil {
+		return
+	}
+	if len(extraInfo) > 0 {
+		var eValueArr []string
+		for _, v := range extraInfo {
+			eValueArr = append(eValueArr, v.EValue)
+		}
+		res = strings.Join(eValueArr, ",")
+	}
+	return
+}
+```
+  
 缺点：查询需要多一个 extra 表的查询
 
 ## End
