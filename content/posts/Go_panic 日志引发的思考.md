@@ -17,116 +17,209 @@
 # featuredImagePreview: ""
 # password:加密页面内容的密码，详见 主题文档 - 内容加密
 # message:  加密提示信息，详见 主题文档 - 内容加密
-linkToMarkdown: true
+linkToMarkdown: false
 # 上面一般不用动
-title: "Hugo 小站规范"
-date: 2022-09-29T01:12:45+08:00
-lastmod: 2022-10-01T15:58:26+08:00
-categories: ["建站"]
-tags: ["Hugo", "Markdown"]
+title: "panic 日志引发的思考"
+date: 2024-06-01T01:12:45+08:00
+lastmod: 2024-06-01T01:12:45+08:00
+categories: ["Go"]
+tags: []
 ---
 
-做事得有规范和计划，所以趁着小站刚刚搭建，先制定一下该网站的目录规范和md文件书写规范等，也把该page文件作为以后page文件的模板。
+最近在排查问题的时候，发现 panic 日志缺失等问题，所以就此问题展开如下探索
 
-## 规范
+## 起因：测试环境 panic recover 日志平台找不到
 
-### 文件规范  
+最近在测试环境上线时，发现启动 panic 并无限循环
 
-1. page命名规范  
+只显示重启次数和不健康的状态，要看 panic 日志的化得点击右侧的 STD 日志查看，就可以看到 panic 日志。随后并定位到代码问题
 
-    ~~每一个page文件命名为“category_category_pageTitle_lastMod.md”。  
-    且category排序按“字母顺序>中文拼音顺序”。  
-    eg: 该page命名为“建站_Hugo小站规范_20220929”。~~   
+```go
+func main() {
+    ...
+    loadConf()
+    ...
+    go cron_job()
+}
 
-    20221001更改为：  
-    每一个page文件命名为“category_category_pageTitle”。  
-    且category排序按“字母顺序>中文拼音顺序”。  
-    eg: 该page命名为“建站_Hugo小站规范”。  
+func loadConf() {
+    conf, err := getFromOss()
+    if err != nil {
+        // 定位到这里
+        panic(fmt.Sprintf("s.reloadExemptConf ExemptReviewConfs conf load fail,id:%v,err:%+v", startId, e))
+    }
+}
 
-    更改原因：  
-    修改文件名称即导致URI改变，个人觉得不太好，遂改变。  
+func getFromOss() (*conf, err) {
+	err := oss.Download()
+	if err != nil {
+		log.Errorc(ctx, "s.getExemptDetailFromBoss s.boss.Download confId(%+v) error(%+v)", conf.ID, err)
+		return err
+	}
+    ...
+}
 
-2. image存储规范  
-
-    1. image统一存储在“site/static/images/”中，经hugo转化后存储在“public/images/”中。 
-
-    2. 一个page对应一个文件夹，该文件夹命名为“pageTitle”  
-    
-    eg：该page中有一张命名为“图片.png”的image，该image存储路径为“site/static/images/Hugo小站规范/图片.png”，引入路径为“/images/Hugo小站规范/图片.png”。
-
-### 目录规范  
-
-pageTitle是一级目录，且**一级目录后是该page的简介**。  
-
-主体文章从二级目录开始书写（theme.conf 设置从二级目录开始解析)  
-
-```toml
-  # 目录设置
-  # 推荐：文章的标题为一级目录，目录从二级目录开始
-  [markup.tableOfContents]
-    startLevel = 2
-    endLevel = 6
+// 使用的是 "github.com/robfig/cron" 包
+func cron_job() {
+    loadConf()
+}
 ```
 
-### 图片引入规范
+解释：oss 中的配置文件被删除了（定位不到为何删除，自动过期？人为删除？）导致的 painc，我重新上传后，实例就正常上线了
 
-图片用HTML模式引入，可设置**居中显示**和**大小**。
+## 思考
 
-```HTML
-<div align=center> <img src="/images/Hugo小站规范/图片.png" style="width:50%; height:50%"/> </div>
+1. 有 cron job 定时加载刷新配置，配置文件肯定是之前就丢了的。之所以之前不会 painc，肯定是 `github.com/robfig/cron` 在跑任务时有 recover painc
+
+2. 但是为什么 recover panic 不会报警，问了 mentor，说测试环境 panic，recover panic 都不会报警（哈，实例挂掉也没人知道。。。）
+
+3. 线上 painc，recover 报警是怎么发现 panic 的
+
+## 探索
+
+**思考一**
+
+由于我在日志平台找不到关于 "panic" 关键词的日志，所以说 recover painc 的日志并没有被上报的日志平台。还好，在 `getFromOss()` 还有一个 error 日志
+
+{{< image src="/images/panic 日志引发的思考/日志.png" width=100% height=100% caption="error 日志" >}} 
+
+可以看到在 5.16 这天就已经获取不到日志，由于定时任务一直跑，所以很规律地打印日志
+
+基本可以确定 panic 被 recover 了，看了下 `github.com/robfig/cron``github.com/robfig/cron` 的源码印证了猜想
+
+{{< image src="/images/panic 日志引发的思考/日志打印.png" width=80% height=80% caption="recover 并打印日志" >}} 
+
+而且由于 recover 后虽然打印了日志，但是只是输出到 STD，并不会上报到日志平台，也就查不到 panic 日志
+
+**思考二和三**
+
+原来使用公司工具包打印的日志，才会上报到公司的日志平台，**而 panic 日志使用内置的 print()，只能输入到 STD**，并不会上报
+
+**那么公司的 painc 报警和 recover panic 报警是如何实现的呢**
+
+其实很简单，由于 painc 日志只会在 STD 输出，并不会上报到平台。所以线上每一个容器内有一个进程，专门收集实例的 STD 日志，然后分析有没有 "panic" 字段并进行报警
+
+**另外的思考** 
+
+其实 cron job 的 recover painc 日志是有 STD 输出的，但是却不会触发报警。如果测试环境有 painc 日志报警，其实可以早点发现这个问题。所以我认为，测试环境也应该有 panic 日志的收集和报警
+
+## 改进
+
+`github.com/robfig/cron` 注入日志处理器，输入到 STD 且上报到日志平台。这样就不会存在找不到 cron job recover panic 但却在日志平台找不到日志的情况了
+
+```go
+import (
+    goLog "log"
+)
+
+type ErrorLogger struct{}
+
+func (ErrorLogger) Printf(format string, v ...interface{}) {
+    // 公司的日志包，可以上报到公司的日志平台
+	log.Error(format, v...)
+    // go 内置的 log 包，默认是输出到 STD
+    goLog.Printf(format, a...)
+}
+
+// 注入日志处理器
+func (s *Service) loadproc(conf *configs.Config) { //nolint:unparam
+	c := cron.New()
+	c.ErrorLog = ErrorLogger{}
+}
 ```
 
-或者用Hugo shortcode（去掉\，防止被解析）
-```Go HTML Template
-\{\{< image src="/images/Hugo小站规范/展示写作.png" width=50% height=50% caption="我是下面的文字" >\}\}
+## 运用
+
+最近处理一个脏数据的问题，运用到了这个知识点
+
+场景：由于数据库表一个必填字段出现零值，mentor 让我排查所有该字段没有校验就写入的代码
+
+我一看该字段被那么地方引用，头都大，后来转念一想，我只要在 dao 层加一个校验，如果为空就报警，并记录下堆栈，不就可以了么，这样就可以找到源头使得产生脏数据的原因，并且保证不会产生增量的脏数据。然后报警复用线上 painc 日志报警的能力就可以了，就不用自己写企微报警了（偷笑ing，我真是大聪明）
+
+```go
+回公司补齐代码
 ```
 
-### Markdown规范
+## 扩展
 
-相同的Markdown文件在不同软件渲染出来的可能会有所差异，为了兼容大部分软件且使得Hugo解析成HTML利于观看，遂制定如下规范。推荐网站：[Markdown](https://markdown.com.cn/basic-syntax/)  
+为什么 panic 时能打印日志，为了探索这个问题，我是用最常见的导致 panic 的方式：段错误。通过 debug 后我猜测，我发现其实段错误时会陷入操作系统内核态，并产生一个 syscall.SIGSEGV 标识为 11 的信号，而 Go 的 runtime 在启动时会注册所有信号的处理函数，然后转换为 Go 自己的信号，这样就能注册自己的处理函数。而 syscall.SIGSEGV 的默认处理函数是产生一个 panic，复用 panic 的机制来打印段错误的日志并结束进程
 
+由于找不到任何资料有上面过程的解答，runtime 的源码也很难看。我就使用下面代码验证我的猜想
 
-1. 换行规范  
+思路很简单，自己注册一个 syscall.SIGSEGV 的处理函数
 
-    记住换行时一定要（兼容）：**在本行尾按两下space再按enter键进行换行**。  
+```go
+func main() {
+	// 创建一个通道来接收信号
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
 
-2. 空行规范  
+	// 注册要接收的信号
+	signal.Notify(sigs, syscall.SIGSEGV)
 
-    注意：在vscode编辑的时候无论有多少个空行(只要这一行只有回车或者space没有其他的字符就算空行)，**在渲染之后，只隔着一行**。也就是说无论如何只能空一行（当然在Typora即写即渲染可以空很多行）。  
-
-3. 段落规范  
-   
-    规范：只要不在同一段文字中，用空行进行分段切割。
-
-    注意：在Markdown语言中，**唯一决定两行文字是否是段落的，就在于这两行文字之间是否有空行**。如果这两行文字之间,有空行了，就代表，这两行文字为两个段落，如果这两行文字之间，没有空行，仅仅换行，就代表这两行文字是属于同一个段落。即使是在一行文字中的末尾，添加了两个空格之后换行，这两个行文字依旧是一个段落。  
-
-    段落的作用：**增大间隙，体现层次感，增强观感**。
-
-    无段落和有段落对比如下：
-
-    {{< image src="/images/Hugo小站规范/无段落.png" caption="无段落">}}
-    {{< image src="/images/Hugo小站规范/有段落.png"
-    caption="有段落">}}
-
-4. 缩进规范  
-
-    只要是利用**数字**和**小圆点***进行分割的，下方文字统一缩进。且缩进统一用Tab（四个space）。  
-
-## 写作工具  
-
-我的note写作工具现在是**vscode+本地网页实时渲染**。  
-
-实时渲染记得设置
+    sig := <-sigs
+	fmt.Println("Received signal:", sig)
+	fmt.Println("发生段错误，继续运行")
+	for {
+		time.Sleep(time.Second * 5)
+		fmt.Println("发生段错误依然运行，不会产生 panic")
+	}
+}
+```
 
 ```bash
-hugo server --disableFastRender
+go bulid -o test main.go
+./test
+Received signal: SIGSEGV
+发生段错误，继续运行
+发生段错误依然运行，不会产生 panic
+
+# 另一个 bash
+ps -ef | gerp test
+ayang     215594  212789  0 23:35 pts/4    00:00:00 ./test
+ayang     215640  149238  0 23:36 pts/0    00:00:00 grep --color=auto test
+kill -11 215594  # 手动发送段错误信号
+```
+正当我欣喜若狂，觉得验证自己的猜想的时候。我又试了一下
+
+```go
+func main() {
+	// 创建一个通道来接收信号
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	// 注册要接收的信号
+	signal.Notify(sigs, syscall.SIGSEGV)
+
+    go func() {
+		time.Sleep(time.Second)
+		var stu *Student
+		stu.age = 18 // 代码触发段错误
+	}()
+
+    sig := <-sigs
+	fmt.Println("Received signal:", sig)
+	fmt.Println("发生段错误，继续运行")
+	for {
+		time.Sleep(time.Second * 5)
+		fmt.Println("发生段错误依然运行，不会产生 panic")
+	}
+}
 ```
 
-{{< image src="/images/Hugo小站规范/展示写作.png">}}
+结果捕获不到段错误的信号
 
+```bash
+panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x599260]
+```
 
-## Markdown源码  
+难道操作系统发出的段错误的信号和用户 kill 命令触发的段错误信号不同？然后 Go 根据是否是操作系统触发的来主动 painc，而用户注册的段错误信号处理器只针对用户主动产生的段错误信号？？？（有没有大佬有这方面知识的储备）
 
-该page的md源码可点击左下角的**阅读原始文档**下载到本地，然后在vscode打开即可清晰看到**该page Markdown的语法规范**。
+## 拓展思考
+
+对 painc 有了更全面的思考，其实 panic 是 Go runtime 的一个机制，最后是主动打印日志并结束进程。注意：是主动的，可能是收到操作系统的段错误信号
+
+当然如果如果是 9 信号，那么不会给程序机会，直接 kill 掉了，这是操作系统的机制。所以 painc 是 Go runtime 自己的机制，觉得是异常并影响到运行而主动结束进程，所以如果有 recover，也可以恢复正常。而 kill -9 则不会给程序任何机会
 
 ## End
