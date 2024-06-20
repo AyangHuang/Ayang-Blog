@@ -137,7 +137,28 @@ func (s *Service) loadproc(conf *configs.Config) { //nolint:unparam
 我一看该字段被那么地方引用，头都大，后来转念一想，我只要在 dao 层加一个校验，如果为空就报警，并记录下堆栈，不就可以了么，这样就可以找到源头使得产生脏数据的原因，并且保证不会产生增量的脏数据。然后报警复用线上 painc 日志报警的能力就可以了，就不用自己写企微报警了（偷笑ing，我真是大聪明）
 
 ```go
-回公司补齐代码
+var (
+	errPTypeZero = errors.New("VideoTortRuleProperty.PType is empty")
+)
+
+// 打印含有"panic"日志到 std，目的是复用 std panic 日志报警能力，能及时知道并通过堆栈定位到导致 PType 产生脏数据的代码，杜绝脏数据入库
+func logPanicPTypeZero(ctx context.Context) (err error) {
+	buf := make([]byte, 64<<10)
+	buf = buf[:runtime.Stack(buf, false)]
+	fmt.Fprintf(os.Stderr, "panic recovered: err: %v\n%s", errPTypeZero, buf)
+	log.Errorc(ctx, "panic recovered: err: %v\n%s", errPTypeZero, buf)
+	// 向外抛出 err
+	err = errPTypeZero
+	return
+}
+
+func (d *Dao) SaveVideoTortRuleProperties(ctx context.Context, mm *dm.VideoTortRuleProperty) (err error) {
+	// 判断是否脏数据
+	if mm.PType.String() == dmMdl.PTNotMatch.String() {
+		return logPanicPTypeZero(ctx)
+	}
+	orm := apmgorm.WithContext(ctx, d.videoOrm)
+	return orm.Save(mm).Error
 ```
 
 ## 扩展
